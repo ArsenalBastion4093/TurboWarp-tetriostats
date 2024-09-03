@@ -1151,6 +1151,11 @@
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate('the author of the game'),
 					},
+					{
+						opcode: 'ioPrintDataConsole',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate("print this extension's data in console"),
+					},
 				]
 			};
 		}
@@ -1657,6 +1662,7 @@
 		ioExTetrioStatsAuthor(){ return "tenchi"; }
 		ioTetrioPlusAuthor(){ return "uniqmg"; }
 		ioAuthor(){ return "osk"; }
+		ioPrintDataConsole(){ console.log(TETRIOSTATS); }
 	}
 	Scratch.extensions.register(new TETRIOSTATS());
 })(Scratch);
