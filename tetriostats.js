@@ -905,7 +905,7 @@
 					{
 						opcode: 'ioUserTLPastSeason',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s [SELECT] in season [SEASON]"),
+						text: Scratch.translate("user [USER]'s [SELECT] in TL season [SEASON]"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -915,6 +915,21 @@
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'tr',
 								menu: "psselect"
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
+							},
+						}
+					},
+					{
+						opcode: 'ioUserPastSeasonIsRanked',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("user [USER] was ranked when the season [SEASON] ends?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
 							},
 							SEASON: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1022,21 +1037,6 @@
 						}
 					},
 					{
-						opcode: 'ioUserPastSeasonIsRanked',
-						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate("user [USER] was ranked when the season [SEASON] ends?"),
-						arguments: {
-							USER: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
-							},
-							SEASON: {
-								type: Scratch.ArgumentType.NUMBER,
-								defaultValue: 1
-							},
-						}
-					},
-					{
 						blockType: "label",
 						text: Scratch.translate("Miscellaneous"),
 					},
@@ -1054,7 +1054,7 @@
 					{
 						opcode: 'ioPriTo40lRecordSecond',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("seconds record [PRI] spent on 40 lines"),
+						text: Scratch.translate("seconds record [PRI] spent on gaming"),
 						arguments: {
 							PRI: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1065,7 +1065,7 @@
 					{
 						opcode: 'ioPriTo40lRecordMinute',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("minutes record [PRI] spent on 40 lines"),
+						text: Scratch.translate("minutes record [PRI] spent on gaming"),
 						arguments: {
 							PRI: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1076,7 +1076,7 @@
 					{
 						opcode: 'ioPriTo40lRecordIntMinute',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("minutes record [PRI] spent on 40 lines (int)"),
+						text: Scratch.translate("minutes record [PRI] spent on gaming (int)"),
 						arguments: {
 							PRI: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1087,7 +1087,7 @@
 					{
 						opcode: 'ioPriTo40lRecordSecondSubMinute',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("seconds record [PRI] spent on 40 lines (without minutes)"),
+						text: Scratch.translate("seconds record [PRI] spent on gaming (without minutes)"),
 						arguments: {
 							PRI: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1379,12 +1379,6 @@
 			if (data) return data.league.standing
 			else return -1;
 		}
-		async ioUserTLPastSeasonStanding(args) {
-			if (!UsernameLgeal(args.USER)) return -1;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].placement
-			else return -1;
-		}
 		async ioUserTLLocalStanding(args) {
 			if (!UsernameLgeal(args.USER)) return -1;
 			var data = (await usersummaries(args.USER)).data
@@ -1397,34 +1391,16 @@
 			if (data) return data.league.tr
 			else return -1;
 		}
-		async ioUserTLPastSeasonTR(args) {
-			if (!UsernameLgeal(args.USER)) return -1;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].tr
-			else return -1;
-		}
 		async ioUserTLGlicko(args) {
 			if (!UsernameLgeal(args.USER)) return -1;
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.glicko
 			else return NaN;
 		}
-		async ioUserTLPastSeasonGlicko(args) {
-			if (!UsernameLgeal(args.USER)) return -1;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].glicko
-			else return NaN;
-		}
 		async ioUserTLRD(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.rd
-			else return NaN;
-		}
-		async ioUserTLPastSeasonRD(args) {
-			if (!UsernameLgeal(args.USER)) return NaN;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].rd
 			else return NaN;
 		}
 		async ioUserRankIsStable(args) {
@@ -1445,22 +1421,10 @@
 			if (data) return data.league.gxe
 			else return NaN;
 		}
-		async ioUserTLPastSeasongxe(args) {
-			if (!UsernameLgeal(args.USER)) return NaN;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].gxe
-			else return NaN;
-		}
 		async ioUserTLPPS(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.pps
-			else return NaN;
-		}
-		async ioUserTLPastSeasonPPS(args) {
-			if (!UsernameLgeal(args.USER)) return NaN;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].pps
 			else return NaN;
 		}
 		async ioUserTLAPM(args) {
@@ -1469,22 +1433,10 @@
 			if (data) return data.league.apm
 			else return NaN;
 		}
-		async ioUserTLPastSeasonAPM(args) {
-			if (!UsernameLgeal(args.USER)) return NaN;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].apm
-			else return NaN;
-		}
 		async ioUserTLVS(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.vs
-			else return NaN;
-		}
-		async ioUserTLPastSeasonVS(args) {
-			if (!UsernameLgeal(args.USER)) return NaN;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].vs
 			else return NaN;
 		}
 		async ioUserTLGP(args) {
@@ -1493,34 +1445,16 @@
 			if (data) return data.league.gamesplayed
 			else return -1;
 		}
-		async ioUserTLPastSeasonGP(args) {
-			if (!UsernameLgeal(args.USER)) return -1;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].gamesplayed
-			else return -1;
-		}
 		async ioUserTLGW(args) {
 			if (!UsernameLgeal(args.USER)) return -1;
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.gameswon
 			else return -1;
 		}
-		async ioUserTLPastSeasonGW(args) {
-			if (!UsernameLgeal(args.USER)) return -1;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].gameswon
-			else return -1;
-		}
 		async ioUserTLWR(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.gameswon / data.league.gamesplayed
-			else return NaN;
-		}
-		async ioUserTLPastSeasonWR(args) {
-			if (!UsernameLgeal(args.USER)) return NaN;
-			var data = (await usersummaries(args.USER)).data
-			if (data && data.league.past[args.SEASON]) return data.league.past[args.SEASON].gameswon / data.league.past[args.SEASON].gamesplayed
 			else return NaN;
 		}
 		async ioUserTLPastSeason(args) {
