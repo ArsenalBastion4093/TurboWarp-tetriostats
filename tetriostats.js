@@ -1,5 +1,6 @@
 ﻿// Please run it without sandbox.
 (async function (Scratch) {
+	"use strict";
 	var vm = Scratch.vm;
 	var runtime = vm.runtime;
 	var newlyInputedUser = "";
@@ -1181,7 +1182,8 @@
 							ACH: {
 								type: Scratch.ArgumentType.NUMBER,
 								defaultValue: 1,
-								menu: "achs"
+								menu: "achs",
+								acceptReporters: false,
 							},
 						}
 					},
@@ -1294,7 +1296,7 @@
 				]
 			};
 		}
-		async requestUser(args) {
+		async User(args) {
 			if (UsernameLgeal(args.USER)) return JSON.stringify(await userdata(args.USER))
 			else return null;
 		}
@@ -1303,7 +1305,7 @@
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotRemoved");
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotNonAutoRemoved");
 		}
-		async requestUserSummaries(args) {
+		async UserSummaries(args) {
 			if (UsernameLgeal(args.USER)) return JSON.stringify(await usersummaries(args.USER))
 			else return null;
 		}
