@@ -699,7 +699,7 @@
 					{
 						opcode: 'ioUserPastSeasonRank',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s rank in season [SEASON]"),
+						text: Scratch.translate("user [USER]'s rank when the season [SEASON] ends"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -725,7 +725,7 @@
 					{
 						opcode: 'ioUserPastSeasonIsRanked',
 						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate("user [USER] was ranked in season [SEASON]?"),
+						text: Scratch.translate("user [USER] was ranked when the season [SEASON] ends?"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -799,7 +799,7 @@
 					{
 						opcode: 'ioUserTLPastSeasonTR',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s TR in season [SEASON]"),
+						text: Scratch.translate("user [USER]'s TR when the season [SEASON] ends"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -825,7 +825,7 @@
 					{
 						opcode: 'ioUserTLPastSeasonGlicko',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s Glicko in season [SEASON]"),
+						text: Scratch.translate("user [USER]'s Glicko when the season [SEASON] ends"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -845,6 +845,21 @@
 							USER: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserTLPastSeasonRD',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s RD when the season [SEASON] ends"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
 							},
 						}
 					},
@@ -882,6 +897,21 @@
 						}
 					},
 					{
+						opcode: 'ioUserTLPastSeasongxe',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s Glixare when the season [SEASON] ends"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
+							},
+						}
+					},
+					{
 						opcode: 'ioUserTLPPS',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s TL PPS"),
@@ -889,6 +919,21 @@
 							USER: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserTLPastSeasonPPS',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s TL PPS in season [SEASON]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
 							},
 						}
 					},
@@ -904,6 +949,21 @@
 						}
 					},
 					{
+						opcode: 'ioUserTLPastSeasonAPM',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s TL APM in season [SEASON]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
+							},
+						}
+					},
+					{
 						opcode: 'ioUserTLVS',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s TL VS score"),
@@ -915,6 +975,21 @@
 						}
 					},
 					{
+						opcode: 'ioUserTLPastSeasonVS',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s TL VS score in season [SEASON]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
+							},
+						}
+					},
+					{
 						opcode: 'ioUserTLStanding',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s TL standing"),
@@ -922,6 +997,21 @@
 							USER: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserTLPastSeasonStanding',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s TL standing when the season [SEASON] ends"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
 							},
 						}
 					},
@@ -948,6 +1038,21 @@
 						}
 					},
 					{
+						opcode: 'ioUserTLPastSeasonGP',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("TL games user [USER] has played in season [SEASON]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
+							},
+						}
+					},
+					{
 						opcode: 'ioUserTLGW',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("TL games user [USER] has won"),
@@ -959,6 +1064,21 @@
 						}
 					},
 					{
+						opcode: 'ioUserTLPastSeasonGW',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("TL games user [USER] has won in season [SEASON]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
+							},
+						}
+					},
+					{
 						opcode: 'ioUserTLWR',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s possibility to win a TL game"),
@@ -966,6 +1086,21 @@
 							USER: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserTLPastSeasonWR',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s possibility to win a TL game in season [SEASON]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
 							},
 						}
 					},
@@ -1546,7 +1681,7 @@
 		async ioUserTLPastSeasonWR(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].gameswon / data.league.past[args.SEASON].gamesplayed
+			if (data && data.league.past[args.SEASON]) return data.league.past[args.SEASON].gameswon / data.league.past[args.SEASON].gamesplayed
 			else return NaN;
 		}
 		ioPrevRank(args) {
@@ -1662,7 +1797,7 @@
 		ioExTetrioStatsAuthor(){ return "tenchi"; }
 		ioTetrioPlusAuthor(){ return "uniqmg"; }
 		ioAuthor(){ return "osk"; }
-		ioPrintDataConsole(){ console.log(TETRIOSTATS); }
+		ioPrintDataConsole(){ console.log("%O",TETRIOSTATS); }
 	}
 	Scratch.extensions.register(new TETRIOSTATS());
 })(Scratch);
