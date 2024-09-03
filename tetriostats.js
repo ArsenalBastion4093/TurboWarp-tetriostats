@@ -675,11 +675,6 @@
 						}
 					},
 					{
-						opcode: 'ioUnranked',
-						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("no rank"),
-					},
-					{
 						opcode: 'ioUserRank',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s rank"),
@@ -1767,9 +1762,6 @@
 		}
 		ioAch(args){
 			return 0 < args.ACH && args.ACH < 50 && args.ACH != 11 && args.ACH % 1 == 0 ? args.ACH : -1
-		}
-		ioUnranked(){
-			return "z";
 		}
 		enableCache(){
 			autoClearcacheEnabled = true;
