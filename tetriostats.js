@@ -134,7 +134,7 @@
 		setTimeout(autoClearcache,1000 * autoClearcacheTime)
 	}
 	autoClearcache()
-	Scratch.translate.setup(await fetch("https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json))
+	Scratch.translate.setup(await fetch("https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json()))
 	class TETRIOSTATS {
 		constructor() {
 		}
@@ -1658,6 +1658,5 @@
 		ioTetrioPlusAuthor(){ return "uniqmg"; }
 		ioAuthor(){ return "osk"; }
 	}
-	console.log (new TETRIOSTATS())
 	Scratch.extensions.register(new TETRIOSTATS());
 })(Scratch);
