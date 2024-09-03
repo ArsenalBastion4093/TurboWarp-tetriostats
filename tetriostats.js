@@ -135,7 +135,11 @@
 		setTimeout(autoClearcache,1000 * autoClearcacheTime)
 	}
 	autoClearcache()
-	Scratch.translate.setup(await fetch("https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json()))
+	try { 
+		Scratch.translate.setup(await fetch("https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json()))
+	} catch(e) {
+		Scratch.translate.setup(await fetch("https://mirror.ghproxy.com/https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json()))
+	}
 	class TETRIOSTATS {
 		constructor() {
 		}
