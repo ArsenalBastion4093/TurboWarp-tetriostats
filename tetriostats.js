@@ -1296,7 +1296,7 @@
 				]
 			};
 		}
-		async User(args) {
+		async requestUser(args) {
 			if (UsernameLgeal(args.USER)) return JSON.stringify(await userdata(args.USER))
 			else return null;
 		}
@@ -1305,7 +1305,7 @@
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotRemoved");
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotNonAutoRemoved");
 		}
-		async UserSummaries(args) {
+		async requestUserSummaries(args) {
 			if (UsernameLgeal(args.USER)) return JSON.stringify(await usersummaries(args.USER))
 			else return null;
 		}
