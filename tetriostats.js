@@ -41,7 +41,7 @@
 		}
 		return A.length >= 3 && A.length <= 16 && A.match(/[a-z0-9]/gi).length > 0 && A.match(/[\-_a-z0-9]/gi).length == A.length;
 	}
-	var ranks = ["x+","x","u","ss","s+","s","s-","a+","a","a-","b+","b","b-","c+","c","c-","d+","d"],
+	var ranks = ["x+","x","u","ss","s+","s","s-","a+","a","a-","b+","b","b-","c+","c","c-","d+","d",{text:Scratch.translate("no rank"),value:"z"}],
 	achievements = [
 		{text:"Stacker",value:1},
 		{text:"Powerlevelling",value:2},
@@ -163,6 +163,12 @@
 					achtypes: {
 						acceptReporters: true,
 						items: achtypes,
+					},
+					lowerhigher: {
+						items: [
+							{text:Scratch("lower"),value:"l"},
+							{text:Scratch("higher"),value:"h"},
+						]
 					}
 				},
 				blocks: [
@@ -647,9 +653,9 @@
 						}
 					},
 					{
-						opcode: 'ioRankIsLowerThan',
+						opcode: 'ioRankIsLowerHigherThan',
 						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate("rank [RANKA] < [RANKB]"),
+						text: Scratch.translate("rank [RANKA] [LOWERHIGHER] [RANKB]"),
 						arguments: {
 							RANKA: {
 								type: Scratch.ArgumentType.STRING,
@@ -661,23 +667,11 @@
 								defaultValue: 'x+',
 								menu: "ranks"
 							},
-						}
-					},
-					{
-						opcode: 'ioRankIsHigherThan',
-						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate("rank [RANKA] > [RANKB]"),
-						arguments: {
-							RANKA: {
+							LOWERHIGHER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'x+',
-								menu: "ranks"
-							},
-							RANKB: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'x',
-								menu: "ranks"
-							},
+								defaultValue: 'l',
+								menu: ""
+							}
 						}
 					},
 					{
@@ -1704,13 +1698,9 @@
 				else return "z"
 			else return "z"
 		}
-		ioRankIsLowerThan(args) {
-			if (ranks.indexOf(args.RANKA) == -1 || ranks.indexOf(args.RANKB) == -1) return false
-			return ranks.indexOf(args.RANKA) > ranks.indexOf(args.RANKB)
-		}
-		ioRankIsHigherThan(args) {
-			if (ranks.indexOf(args.RANKA) == -1 || ranks.indexOf(args.RANKB) == -1) return false
-			return ranks.indexOf(args.RANKA) < ranks.indexOf(args.RANKB)
+		ioRankIsLowerHigherThan(args) {
+			if (args.RANKA == "z" || args.RANKB == "z" || ranks.indexOf(args.RANKA) == -1 || ranks.indexOf(args.RANKB) == -1) return false
+			return args.LOWERHIGHER == "l" ? ranks.indexOf(args.RANKA) > ranks.indexOf(args.RANKB) : ranks.indexOf(args.RANKA) < ranks.indexOf(args.RANKB)
 		}
 		async ioUser40lRecord(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
