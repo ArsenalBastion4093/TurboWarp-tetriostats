@@ -290,11 +290,6 @@
 						text: Scratch.translate('remove all the cache'),
 					},
 					{
-						opcode: 'refreshPage',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('refresh the page'),
-					},
-					{
 						opcode: 'newlyInputedUser',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate('newly inputed user'),
@@ -1290,6 +1285,11 @@
 						opcode: 'ioPrintDataConsole',
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate("print this extension's data in console"),
+					},
+					{
+						opcode: 'refreshPage',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('refresh the page'),
 					},
 				]
 			};
