@@ -46,7 +46,8 @@
 		}
 		return A.length >= 3 && A.length <= 16 && A.match(/[a-z0-9]/gi).length > 0 && A.match(/[\-_a-z0-9]/gi).length == A.length;
 	}
-	var ranks = ["x+","x","u","ss","s+","s","s-","a+","a","a-","b+","b","b-","c+","c","c-","d+","d",{text:Scratch.translate("no rank"),value:"z"}],
+	var currentseason = 2,
+	ranks = ["x+","x","u","ss","s+","s","s-","a+","a","a-","b+","b","b-","c+","c","c-","d+","d"],
 	achievements = [
 		{text:"Stacker",value:1},
 		{text:"Powerlevelling",value:2},
@@ -154,7 +155,7 @@
 				menus: {
 					ranks: {
 						acceptReporters: true,
-						items: ranks,
+						items: ["x+","x","u","ss","s+","s","s-","a+","a","a-","b+","b","b-","c+","c","c-","d+","d",{text:Scratch.translate("no rank"),value:"z"}],
 					},
 					achs: {
 						acceptReporters: true,
@@ -248,6 +249,22 @@
 						}
 					},
 					{
+						opcode: 'userSummaryCacheExist',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate('summary cache for user [USER] exists?'),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'rankdataCacheExist',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate('cache for ranks exists?'),
+					},
+					{
 						opcode: 'cacheGotAutoRemoved',
 						blockType: Scratch.BlockType.EVENT,
 						text: Scratch.translate('when a cache got automatically removed'),
@@ -281,6 +298,11 @@
 								defaultValue: 0.1
 							},
 						}
+					},
+					{
+						opcode: 'currentCache',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('seconds of time between cache clearing'),
 					},
 					{
 						opcode: 'refreshUser',
@@ -938,6 +960,21 @@
 						}
 					},
 					{
+						opcode: 'ioUserTLPastSeasonPlayed',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("user [USER] has been playing in season [SEASON]?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SEASON: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
+							},
+						}
+					},
+					{
 						blockType: "label",
 						text: Scratch.translate("Sprint/40 Lines"),
 					},
@@ -1460,10 +1497,24 @@
 		async ioUserTLPastSeason(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data && data.league.past[args.SEASON]) 
-				if (args.SELECT == "wr") return data.league.past[args.SEASON].gameswon / data.league.past[args.SEASON].gamesplayed
-				else return data.league.past[args.SEASON][args.SELECT]
-			else return NaN;
+			if (data)
+				if (args.SEASON == currentseason)
+					if (args.SELECT == "wr") return data.league.gameswon / data.league.gamesplayed
+					else if (args.SELECT == "placement") return data.league.standing
+					else return data.league[args.SELECT]
+				else if (data.league.past[args.SEASON]) 
+					if (args.SELECT == "wr") return data.league.past[args.SEASON].gameswon / data.league.past[args.SEASON].gamesplayed
+					else return data.league.past[args.SEASON][args.SELECT]
+				else return NaN
+			else return NaN
+		}
+		async ioUserTLPastSeasonPlayed(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data) 
+				if (args.SEASON == currentseason) return data.league.gamesplayed
+				else return !!data.league.past[args.SEASON]
+			else return false;
 		}
 		ioPrevRank(args) {
 			if (ranks.indexOf(args.RANK) != -1) 
@@ -1561,9 +1612,19 @@
 		setCache(a){
 			autoClearcacheTime = a.N;
 		}
+		currentCache(){
+			return autoClearcacheTime;
+		}
 		userCacheExist(args) {
 			if (UsernameLgeal(args.USER)) return !!saved_data[args.USER]
 			else return false;
+		}
+		userSummaryCacheExist(args){
+			if (UsernameLgeal(args.USER)) return !!summaries[args.USER]
+			else return false;
+		}
+		rankdataCacheExist(){
+			return !!rankdata
 		}
 		newlyInputedUser(){ return newlyInputedUser; }
 		ioBlockAuthor(){ return "neko_ab4093"; }
