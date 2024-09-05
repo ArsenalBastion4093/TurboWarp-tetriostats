@@ -1,6 +1,6 @@
 # Introduction
 
-The repository for the Tetr.io Stats TwrboWarp Extension.
+The repository for the Tetr.io Stats TurboWarp Extension.
 
 # Usage 
 
