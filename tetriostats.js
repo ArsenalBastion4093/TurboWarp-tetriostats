@@ -39,6 +39,13 @@
 		}
 		return rankdata
 	}
+	async function getmetadata() {
+		if (!metadata) {
+			metadata = await(fetch("https://ch.tetr.io/api/general/stats").then(r => r.json()))
+			Scratch.vm.runtime.startHats("tetriostats_cacheGotInputed");
+		}
+		return metadata
+	}
 	function UsernameLgeal(A) {
 		A = A.toString();
 		if (A == "") {
@@ -116,6 +123,7 @@
 	saved_achdata = {},
 	summaries = {},
 	rankdata = null,
+	metadata = null,
 	autoClearcacheEnabled = true,
 	autoClearcacheTime = 0.1;
 	async function autoClearcache(){
@@ -128,6 +136,11 @@
 				}
 			if (rankdata && Date.now() > rankdata.cache.cached_until) {
 				rankdata = null;
+				Scratch.vm.runtime.startHats("tetriostats_cacheGotRemoved");
+				Scratch.vm.runtime.startHats("tetriostats_cacheGotAutoRemoved");
+			}
+			if (metadata && Date.now() > metadata.cache.cached_until) {
+				metadata = null;
 				Scratch.vm.runtime.startHats("tetriostats_cacheGotRemoved");
 				Scratch.vm.runtime.startHats("tetriostats_cacheGotAutoRemoved");
 			}
@@ -345,6 +358,75 @@
 						opcode: 'newlyInputedUser',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate('newly inputed user'),
+					},
+					{
+						blockType: "label",
+						text: Scratch.translate("General Data"),
+					},
+					{
+						opcode: 'usercount',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('total players'),
+					},
+					{
+						opcode: 'anoncount',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('anonymous players'),
+					},
+					{
+						opcode: 'registeredusercount',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('registered players'),
+					},
+					{
+						opcode: 'rankedcount',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('ranked players'),
+					},
+					{
+						opcode: 'recordcount',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('records saved'),
+					},
+					{
+						opcode: 'gamesplayed',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('games played'),
+					},
+					{
+						opcode: 'gamesfinished',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('games finished'),
+					},
+					{
+						opcode: 'gametime',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('time played /s'),
+					},
+					{
+						opcode: 'inputs',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('keys pressed'),
+					},
+					{
+						opcode: 'piecesplaced',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('pieces placed'),
+					},
+					{
+						opcode: 'avgpps',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('average PPS'),
+					},
+					{
+						opcode: 'avgkps',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('average KPS'),
+					},
+					{
+						opcode: 'avgkpp',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('average KPP'),
 					},
 					{
 						blockType: "label",
@@ -1512,7 +1594,7 @@
 			if (!UsernameLgeal(args.USER)) return false;
 			var data = (await usersummaries(args.USER)).data
 			if (data) 
-				if (args.SEASON == currentseason) return data.league.gamesplayed
+				if (args.SEASON == currentseason) return !!data.league.gamesplayed
 				else return !!data.league.past[args.SEASON]
 			else return false;
 		}
@@ -1593,6 +1675,58 @@
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data["40l"].record._id
 			else return NaN;
+		}
+		async usercount(){
+			var data = (await getmetadata()).data
+			return data.usercount;
+		}
+		async anoncount(){
+			var data = (await getmetadata()).data
+			return data.anoncount;
+		}
+		async registeredusercount(){
+			var data = (await getmetadata()).data
+			return data.usercount - data.anoncount;
+		}
+		async rankedcount(){
+			var data = (await getmetadata()).data
+			return data.rankedcount;
+		}
+		async recordcount(){
+			var data = (await getmetadata()).data
+			return data.recordcount;
+		}
+		async gamesplayed(){
+			var data = (await getmetadata()).data
+			return data.gamesplayed;
+		}
+		async gamesfinished(){
+			var data = (await getmetadata()).data
+			return data.gamesfinished;
+		}
+		async gametime(){ // seconds
+			var data = (await getmetadata()).data
+			return data.gametime;
+		}
+		async inputs(){
+			var data = (await getmetadata()).data
+			return data.inputs;
+		}
+		async piecesplaced(){
+			var data = (await getmetadata()).data
+			return data.piecesplaced;
+		}
+		async avgpps(){
+			var data = (await getmetadata()).data
+			return data.piecesplaced / data.gametime;
+		}
+		async avgkps(){
+			var data = (await getmetadata()).data
+			return data.inputs / data.gametime;
+		}
+		async avgkpp(){
+			var data = (await getmetadata()).data
+			return data.inputs / data.piecesplaced;
 		}
 		ioAchName(args){
 			return {"1":"Stacker","2":"Powerlevelling","3":"Grbage Offensive","4":"Elegance","5":"Sprinter","6":"Blitzer","7":"Secret Grade","8":"20TSD","9":"10PC","10":"Contender","12":"The Spike of all Time","13":"Speed Player","14":"Plonk","15":"Opener Main","16":"Tower Climber","17":"Whatever It Takes","18":"Zenith Explorer","19":"The Emperor","20":"The Devil","21":"Strengh","22":"The Tower","23":"Temperance","24":"Wheel of Fortune","25":"The Hermit","26":"The Magician","27":"The Lovers","28":"A Modern Classic","29":"Deadlock","30":"The Grandmaster","31":"Emperor's Decadence","32":"Divine Mastery","33":"The Escape Artist","34":"Swamp Water","35":"Champion of the Lobby","36":"All the Single Lines","37":"1-8 Stacking","38":"Mr. Boardwide","39":"Wabi-Sabi","40":"Trained Proessionals","41":"The Responsible One","42":"Zenith Speedrun","43":"Guardian Angel","44":"The Straving Artist","45":"Supercharged","46":"Vip List","47":"Against All Odds","48":"Detail Oriented","49":"The Con Artist"}[args.ACH]||""
