@@ -921,7 +921,7 @@
 					{
 						opcode: 'ioUserTLPPS',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s TL PPS"),
+						text: Scratch.translate("user [USER]'s Pieces Per Second in TL"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -932,7 +932,7 @@
 					{
 						opcode: 'ioUserTLAPM',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s TL APM"),
+						text: Scratch.translate("user [USER]'s Attack Per Minute in TL"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -943,7 +943,7 @@
 					{
 						opcode: 'ioUserTLVS',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s TL VS score"),
+						text: Scratch.translate("user [USER]'s Versus score in TL"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -1056,6 +1056,54 @@
 							},
 						}
 					},
+					{
+						blockType: "label",
+						text: Scratch.translate("Tetra League - Nerd Stats"),
+					},/*
+					{
+						opcode: 'ioUserTLAPP',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s Attack Per Piece in TL"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserDsType',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER] is [DSTYPE]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserTLDsPS',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s Downstack Per Second in TL"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserTLDsPP',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s Downstack Per Piece in TL"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},*/
 					{
 						blockType: "label",
 						text: Scratch.translate("Sprint/40 Lines"),
