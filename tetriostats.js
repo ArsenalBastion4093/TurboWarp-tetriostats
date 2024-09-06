@@ -17,6 +17,14 @@
 		}
 		return saved_data[USER.toString().toLowerCase()]
 	}
+	async function rounddata(USER) {
+		if (!saved_rounddata[USER.toString().toLowerCase()]) {
+			saved_rounddata[USER.toString().toLowerCase()] = await fetch("https://ch.tetr.io/api/users/" + USER.toString().toLowerCase() + "/records/league/recent?limit=100").then(r => r.json());
+			newlyInputedUser = USER.toString().toLowerCase()
+			Scratch.vm.runtime.startHats("tetriostats_cacheGotInputed");
+		}
+		return saved_rounddata[USER.toString().toLowerCase()]
+	}
 	async function achdata(ACH) {
 		if (!saved_achdata[ACH]) {
 			saved_achdata[ACH] = await fetch("https://ch.tetr.io/api/achievements/" + ACH).then(r => r.json());
@@ -207,8 +215,10 @@
 					dstype:{
 						items: [
 							{text:Scratch.translate("Opener Main"),value:"openermain"},
-							{text:Scratch.translate("Downstacker"),value:"downstacker"},
-							{text:Scratch.translate("Inf DS"),value:"infds"},
+							{text:Scratch.translate("Offensive Stacker"),value:"os"},
+							{text:Scratch.translate("Balanced Stacker"),value:"bs"},
+							{text:Scratch.translate("Defensive Stacker"),value:"ds"},
+							{text:Scratch.translate("Inf. Downstacker"),value:"infds"},
 						]
 					}
 				},
@@ -1870,8 +1880,10 @@
 			var data = (await usersummaries(args.USER)).data
 			if (data) 
 				if (args.DSTYPE == "openermain") return data.league.vs / data.league.apm < 2
-				if (args.DSTYPE == "downstacker") return data.league.vs / data.league.apm >= 2 && data.league.vs / data.league.apm < 2.3
-				if (args.DSTYPE == "infds") return data.league.vs / data.league.apm >= 2.3
+				if (args.DSTYPE == "os") return data.league.vs / data.league.apm >= 2 && data.league.vs / data.league.apm < 2.11
+				if (args.DSTYPE == "bs") return data.league.vs / data.league.apm >= 2.11 && data.league.vs / data.league.apm < 2.21
+				if (args.DSTYPE == "ds") return data.league.vs / data.league.apm >= 2.21 && data.league.vs / data.league.apm < 2.31
+				if (args.DSTYPE == "infds") return data.league.vs / data.league.apm >= 2.31
 			else return false;
 		}
 		async ioUserTLDsPS(args) {
