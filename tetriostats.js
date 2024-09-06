@@ -800,7 +800,7 @@
 							},
 							LOWERHIGHER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'l',
+								defaultValue: 'i',
 								menu: "lowerhigher"
 							}
 						}
@@ -1481,7 +1481,7 @@
 		async ioIDToUser(args) {
 			if (args.ID.toString().length != 24) return "";
 			for (var i in saved_data)
-				if (saved_data[i].data._id = args.ID) return i
+				if (saved_data[i].data._id == args.ID) return i
 			var res = await fetch("https://ch.tetr.io/api/users/" + args.ID).then(r => r.json());
 			var uname = res.data.username;
 			saved_data[uname] = res;
