@@ -180,8 +180,9 @@
 					},
 					lowerhigher: {
 						items: [
-							{text:Scratch.translate("lower"),value:"l"},
-							{text:Scratch.translate("higher"),value:"h"},
+							{text:Scratch.translate("is"),value:"i"},
+							{text:Scratch.translate("is lower than"),value:"l"},
+							{text:Scratch.translate("is higher than"),value:"h"},
 						]
 					},
 					psselect: {
@@ -205,7 +206,7 @@
 					},
 					dstype:{
 						items: [
-							{text:Scratch.translate("Opener Main"),value:"opener-main"},
+							{text:Scratch.translate("Opener Main"),value:"openermain"},
 							{text:Scratch.translate("Downstacker"),value:"downstacker"},
 							{text:Scratch.translate("Inf DS"),value:"infds"},
 						]
@@ -785,7 +786,7 @@
 					{
 						opcode: 'ioRankIsLowerHigherThan',
 						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate("rank [RANKA] is [LOWERHIGHER] than [RANKB]"),
+						text: Scratch.translate("rank [RANKA] [LOWERHIGHER] [RANKB]"),
 						arguments: {
 							RANKA: {
 								type: Scratch.ArgumentType.STRING,
@@ -1552,13 +1553,7 @@
 		async ioUserRank(args) {
 			if (!UsernameLgeal(args.USER)) return "z";
 			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.rank
-			else return "z";
-		}
-		async ioUserPastSeasonRank(args) {
-			if (!UsernameLgeal(args.USER)) return "z";
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].rank
+			if (data) return data.league.rank || "z"
 			else return "z";
 		}
 		async ioUserIsRanked(args) {
@@ -1567,22 +1562,10 @@
 			if (data) return data.league.rank != "z"
 			else return false;
 		}
-		async ioUserPastSeasonIsRanked(args) {
-			if (!UsernameLgeal(args.USER)) return false;
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].ranked
-			else return false;
-		}
 		async ioUserTopRank(args) {
 			if (!UsernameLgeal(args.USER)) return "z";
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.bestrank
-			else return "z";
-		}
-		async ioUserPastSeasonTopRank(args) {
-			if (!UsernameLgeal(args.USER)) return "z";
-			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.past[args.SEASON].bestrank
 			else return "z";
 		}
 		async ioUserTLStanding(args) {
@@ -1691,6 +1674,21 @@
 				else return !!data.league.past[args.SEASON]
 			else return false;
 		}
+		async ioUserTLPastSeasonIsRanked(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data) 
+				if (args.SEASON == currentseason) return data.league.rank != "z"
+				else if (data.league.past[args.SEASON]) return data.league.past[args.SEASON].ranked
+				else return false
+			else return false;
+		}
+		async ioUserPastSeasonIsRanked(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return data.league.past[args.SEASON].ranked
+			else return false;
+		}
 		ioPrevRank(args) {
 			if (ranks.indexOf(args.RANK) != -1) 
 				if (ranks[ranks.indexOf(args.RANK)+1])
@@ -1707,6 +1705,7 @@
 		}
 		ioRankIsLowerHigherThan(args) {
 			if (args.RANKA == "z" || args.RANKB == "z" || ranks.indexOf(args.RANKA) == -1 || ranks.indexOf(args.RANKB) == -1) return false
+			if (args.LOWERHIGHER == "i") return args.RANKB == args.RANKA
 			return args.LOWERHIGHER == "l" ? ranks.indexOf(args.RANKA) > ranks.indexOf(args.RANKB) : ranks.indexOf(args.RANKA) < ranks.indexOf(args.RANKB)
 		}
 		async ioUser40lRecord(args) {
@@ -1870,7 +1869,7 @@
 			if (!UsernameLgeal(args.USER)) return false;
 			var data = (await usersummaries(args.USER)).data
 			if (data) 
-				if (args.DSTYPE == "opener-main") return data.league.vs / data.league.apm < 2
+				if (args.DSTYPE == "openermain") return data.league.vs / data.league.apm < 2
 				if (args.DSTYPE == "downstacker") return data.league.vs / data.league.apm >= 2 && data.league.vs / data.league.apm < 2.3
 				if (args.DSTYPE == "infds") return data.league.vs / data.league.apm >= 2.3
 			else return false;
