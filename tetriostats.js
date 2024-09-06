@@ -202,6 +202,13 @@
 							{text:Scratch.translate("Username"),value:"username"},
 							{text:Scratch.translate("Country"),value:"country"},
 						]
+					},
+					dstype:{
+						items: [
+							{text:Scratch.translate("Opener Main"),value:"opener-main"},
+							{text:Scratch.translate("Downstacker"),value:"downstacker"},
+							{text:Scratch.translate("Inf DS"),value:"infds"},
+						]
 					}
 				},
 				blocks: [
@@ -1059,7 +1066,7 @@
 					{
 						blockType: "label",
 						text: Scratch.translate("Tetra League - Nerd Stats"),
-					},/*
+					},
 					{
 						opcode: 'ioUserTLAPP',
 						blockType: Scratch.BlockType.REPORTER,
@@ -1073,12 +1080,17 @@
 					},
 					{
 						opcode: 'ioUserDsType',
-						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER] is [DSTYPE]"),
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("user [USER] is [DSTYPE]?"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
+							},
+							DSTYPE: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'openermain',
+								menu: "dstype"
 							},
 						}
 					},
@@ -1103,7 +1115,40 @@
 								defaultValue: 'neko_ab4093'
 							},
 						}
-					},*/
+					},
+					{
+						opcode: 'ioUserTLCheese',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s Cheese Index in TL"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserGarbageEff',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s Garbage Efficienty in TL"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserWAPP',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s weighted APP in TL"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
 					{
 						blockType: "label",
 						text: Scratch.translate("Sprint/40 Lines"),
@@ -1815,6 +1860,51 @@
 		ioTetrioPlusAuthor(){ return "uniqmg"; }
 		ioAuthor(){ return "osk"; }
 		ioPrintDataConsole(){ console.log("%O",TETRIOSTATS); }
+		async ioUserTLAPP(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return data.league.apm/60 / data.league.pps
+			else return NaN;
+		}
+		async ioUserDsType(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data) 
+				if (args.DSTYPE == "opener-main") return data.league.vs / data.league.apm < 2
+				if (args.DSTYPE == "downstacker") return data.league.vs / data.league.apm >= 2 && data.league.vs / data.league.apm < 2.3
+				if (args.DSTYPE == "infds") return data.league.vs / data.league.apm >= 2.3
+			else return false;
+		}
+		async ioUserTLDsPS(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return data.league.vs/100 - data.league.apm/60
+			else return NaN;
+		}
+		async ioUserTLDsPP(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return (data.league.vs/100 - data.league.apm/60)/data.league.pps
+			else return NaN;
+		}
+		async ioUserTLCheese(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return (150*(data.league.vs/100 - data.league.apm/60)/data.league.pps) + 50*(data.league.vs/data.league.apm-2) + 125*(0.6 - data.league.apm/60 / data.league.pps)
+			else return NaN;
+		}
+		async ioUserGarbageEff(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return 2 * data.league.apm/60 / data.league.pps * (data.league.vs/100 - data.league.apm/60)/data.league.pps
+			else return NaN;
+		}
+		async ioUserWAPP(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return data.league.apm/60 / data.league.pps
+			else return NaN;
+		}
 	}
 	Scratch.extensions.register(new TETRIOSTATS());
 })(Scratch);
