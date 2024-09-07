@@ -1982,7 +1982,6 @@
 			if (data) return data.league.apm/60 / data.league.pps
 			else return NaN;
 		}
-		{
 		async ioAchHas(args){
 			if (!UsernameLgeal(args.USER)) return false;
 			var data = (await usersummaries(args.USER)).data
