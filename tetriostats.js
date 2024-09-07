@@ -66,7 +66,7 @@
 	achievements = [
 		{text:"Stacker",value:1},
 		{text:"Powerlevelling",value:2},
-		{text:"Grbage Offensive",value:3},
+		{text:"Garbage Offensive",value:3},
 		{text:"Elegance",value:4},
 		{text:"Sprinter",value:5},
 		{text:"Blitzer",value:6},
