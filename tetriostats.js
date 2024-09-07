@@ -12,6 +12,7 @@
 	async function userdata(USER) {
 		if (!saved_data[USER.toString().toLowerCase()]) {
 			saved_data[USER.toString().toLowerCase()] = await fetch("https://ch.tetr.io/api/users/" + USER.toString().toLowerCase()).then(r => r.json());
+			if (!history.user[USER.toString().toLowerCase()]) history.user[USER.toString().toLowerCase()] = saved_data[USER.toString().toLowerCase()]
 			newlyInputedUser = USER.toString().toLowerCase()
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotInputed");
 		}
@@ -20,6 +21,7 @@
 	async function rounddata(USER) {
 		if (!saved_rounddata[USER.toString().toLowerCase()]) {
 			saved_rounddata[USER.toString().toLowerCase()] = await fetch("https://ch.tetr.io/api/users/" + USER.toString().toLowerCase() + "/records/league/recent?limit=100").then(r => r.json());
+			if (!history.sum[USER.toString().toLowerCase()]) history.sum[USER.toString().toLowerCase()] = saved_data[USER.toString().toLowerCase()]
 			newlyInputedUser = USER.toString().toLowerCase()
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotInputed");
 		}
@@ -131,6 +133,10 @@
 	saved_achdata = {},
 	saved_rounddata = {},
 	summaries = {},
+	history = {
+		user: {},
+		sum: {},
+	},
 	rankdata = null,
 	metadata = null,
 	autoClearcacheEnabled = true,
@@ -1032,6 +1038,50 @@
 						}
 					},
 					{
+						opcode: 'ioWhenUserTLGP',
+						blockType: Scratch.BlockType.HAT,
+						text: Scratch.translate("when [USER] finish a TL game"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioWhenUserTLGW',
+						blockType: Scratch.BlockType.HAT,
+						text: Scratch.translate("when [USER] win a TL game"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioIfUserTLGP',
+						blockType: Scratch.BlockType.CONDITIONAL,
+						text: Scratch.translate("if [USER] finished a TL game recently"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioIfUserTLGW',
+						blockType: Scratch.BlockType.CONDITIONAL,
+						text: Scratch.translate("if [USER] won a TL game recently"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
 						opcode: 'ioUserTLPastSeason',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s [SELECT] in TL season [SEASON]"),
@@ -1721,6 +1771,62 @@
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.gameswon
 			else return -1;
+		}
+		async ioUserTLGP(args) {
+			if (!UsernameLgeal(args.USER)) return -1;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return data.league.gamesplayed
+			else return -1;
+		}
+		async ioUserTLGW(args) {
+			if (!UsernameLgeal(args.USER)) return -1;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return data.league.gameswon
+			else return -1;
+		}
+		async ioWhenUserTLGP(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (!data || !history.sum[args.USER.toString().toLowerCase()].data) return false 
+			if (history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed == data.league.gamesplayed) return false
+			else {
+				history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed = data.league.gamesplayed;
+				return true;
+			}
+			else return false;
+		}
+		async ioWhenUserTLGW(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (!data || !history.sum[args.USER.toString().toLowerCase()].data) return false 
+			if (history.sum[args.USER.toString().toLowerCase()].data.league.gameswon == data.league.gameswon) return false
+			else {
+				history.sum[args.USER.toString().toLowerCase()].data.league.gameswon = data.league.gameswon;
+				return true;
+			}
+			else return false;
+		}
+		async ioIfUserTLGP(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (!data || !history.sum[args.USER.toString().toLowerCase()].data) return false 
+			if (history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed == data.league.gamesplayed) return false
+			else {
+				history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed = data.league.gamesplayed;
+				return true;
+			}
+			else return false;
+		}
+		async ioIfUserTLGW(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (!data || !history.sum[args.USER.toString().toLowerCase()].data) return false 
+			if (history.sum[args.USER.toString().toLowerCase()].data.league.gameswon == data.league.gameswon) return false
+			else {
+				history.sum[args.USER.toString().toLowerCase()].data.league.gameswon = data.league.gameswon;
+				return true;
+			}
+			else return false;
 		}
 		async ioUserTLWR(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
