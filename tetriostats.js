@@ -1156,17 +1156,6 @@
 						}
 					},
 					{
-						opcode: 'ioUserTLFT',
-						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s FT when fighting"),
-						arguments: {
-							USER: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
-							},
-						}
-					},
-					{
 						blockType: "label",
 						text: Scratch.translate("Tetra League - Nerd Stats"),
 					},
@@ -1287,7 +1276,7 @@
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
 							},
-							USER: {
+							SUB: {
 								type: Scratch.ArgumentType.NUMBER,
 								defaultValue: 50
 							},
