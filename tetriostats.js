@@ -1519,11 +1519,6 @@
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate("print this extension's data in console"),
 					},
-					{
-						opcode: 'refreshPage',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('refresh the page'),
-					},
 				]
 			};
 		}
@@ -1561,9 +1556,6 @@
 			rankdata=null;
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotRemoved")
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotNonAutoRemoved")
-		}
-		refreshPage(){
-			location = location
 		}
 		ioUsernameLgeal(args) {
 			return UsernameLgeal(args.NAME);
