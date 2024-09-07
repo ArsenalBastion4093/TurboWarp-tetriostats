@@ -1038,7 +1038,7 @@
 						}
 					},
 					{
-						opcode: 'ioWhenUserTLGP',
+						opcode: 'UserTLGP',
 						blockType: Scratch.BlockType.HAT,
 						text: Scratch.translate("when [USER] finish a TL game"),
 						arguments: {
@@ -1049,7 +1049,7 @@
 						}
 					},
 					{
-						opcode: 'ioWhenUserTLGW',
+						opcode: 'UserTLGW',
 						blockType: Scratch.BlockType.HAT,
 						text: Scratch.translate("when [USER] win a TL game"),
 						arguments: {
@@ -1813,7 +1813,6 @@
 				history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed = data.league.gamesplayed;
 				return true;
 			}
-			else return false;
 		}
 		async ioIfUserTLGW(args) {
 			if (!UsernameLgeal(args.USER)) return false;
@@ -1824,7 +1823,6 @@
 				history.sum[args.USER.toString().toLowerCase()].data.league.gameswon = data.league.gameswon;
 				return true;
 			}
-			else return false;
 		}
 		async ioUserTLWR(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
