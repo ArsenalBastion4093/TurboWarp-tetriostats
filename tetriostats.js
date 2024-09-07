@@ -113,7 +113,7 @@
 		{text:"Detail Oriented",value:48},
 		{text:"The Con Artist",value:49},
 	],
-	achtypes = [
+	achranks = [
 		{text:"Bronze",value:"1"},
 		{text:"Silver",value:"2"},
 		{text:"Gold",value:"3"},
@@ -129,6 +129,7 @@
 	],
 	saved_data = {},
 	saved_achdata = {},
+	saved_rounddata = {},
 	summaries = {},
 	rankdata = null,
 	metadata = null,
@@ -158,6 +159,12 @@
 					Scratch.vm.runtime.startHats("tetriostats_cacheGotRemoved");
 					Scratch.vm.runtime.startHats("tetriostats_cacheGotAutoRemoved");
 				}
+			for (var i in saved_rounddata) 
+				if (Date.now() > saved_rounddata[i].cache.cached_until) {
+					delete saved_rounddata[i];
+					Scratch.vm.runtime.startHats("tetriostats_cacheGotRemoved");
+					Scratch.vm.runtime.startHats("tetriostats_cacheGotAutoRemoved");
+				}
 		}
 		setTimeout(autoClearcache,1000 * autoClearcacheTime)
 	}
@@ -182,9 +189,9 @@
 						acceptReporters: true,
 						items: achievements,
 					},
-					achtypes: {
+					achranks: {
 						acceptReporters: true,
-						items: achtypes,
+						items: achranks,
 					},
 					lowerhigher: {
 						items: [
@@ -1260,6 +1267,65 @@
 						}
 					},
 					{
+						opcode: 'ioAchHas',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("[USER] has [ACH]?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchShownOnProfile',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("[USER] shows [ACH] on their profile?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioRankAchObtained',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[ARANK]-rank achievements [USER] obtained"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+							ARANK: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "1",
+								menu: "achranks"
+							},
+						}
+					},
+					{
+						opcode: 'ioUserAR',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[USER]'s achievement rating"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+						}
+					},
+					{
 						blockType: "label",
 						text: Scratch.translate("Miscellaneous"),
 					},
@@ -1915,6 +1981,39 @@
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.apm/60 / data.league.pps
 			else return NaN;
+		}
+		{
+		async ioAchHas(args){
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data) {
+				for (var i in data.achievements)
+					if (data.achievements[i].k == args.ACH)
+						return !data.achievements[i].stub
+				return false
+			}
+			else return false;
+		}
+		async ioAchShownOnProfile(args){
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await userdata(args.USER)).data
+			if (data) 
+				return data.achievements.lastIndexOf(args.ACH) != -1
+			else return false;
+		}
+		async ioRankAchObtained(args){
+			if (!UsernameLgeal(args.USER)) return 0;
+			var data = (await userdata(args.USER)).data
+			if (data) 
+				return data.ar_counts[args.ARANK]||0
+			else return 0;
+		}
+		async ioUserAR(args){
+			if (!UsernameLgeal(args.USER)) return 0;
+			var data = (await userdata(args.USER)).data
+			if (data) 
+				return data.ar||0
+			else return 0;
 		}
 	}
 	Scratch.extensions.register(new TETRIOSTATS());
