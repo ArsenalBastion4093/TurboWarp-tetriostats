@@ -1798,7 +1798,7 @@
 		async ioUserTLS1likeTR(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data) return data.league.gxe * 25000
+			if (data) return data.league.gxe * 250
 			else return NaN;
 		}
 		async ioUserTLPPS(args) {
