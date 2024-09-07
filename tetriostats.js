@@ -954,7 +954,7 @@
 					{
 						opcode: 'ioUserTLgxe',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("user [USER]'s Glixare"),
+						text: Scratch.translate("user [USER]'s Glixare (Percentage chance of winning against the average player)"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -1010,6 +1010,17 @@
 						opcode: 'ioUserTLLocalStanding',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s TL local standing"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUserTLPercentStanding',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s percentile TL standing"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -1145,8 +1156,30 @@
 						}
 					},
 					{
+						opcode: 'ioUserTLFT',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s FT when fighting"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
 						blockType: "label",
 						text: Scratch.translate("Tetra League - Nerd Stats"),
+					},
+					{
+						opcode: 'ioUserTLS1likeTR',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s TR as would be calucated in season 1"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
 					},
 					{
 						opcode: 'ioUserTLAPP',
@@ -1242,6 +1275,21 @@
 							USER: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUser40lSub',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("user [USER] sub[SUB]?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							USER: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 50
 							},
 						}
 					},
@@ -1713,6 +1761,12 @@
 			if (data) return data.league.standing
 			else return -1;
 		}
+		async ioUserTLPercentStanding(args) {
+			if (!UsernameLgeal(args.USER)) return -1;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return data.league.percentile
+			else return -1;
+		}
 		async ioUserTLLocalStanding(args) {
 			if (!UsernameLgeal(args.USER)) return -1;
 			var data = (await usersummaries(args.USER)).data
@@ -1753,6 +1807,12 @@
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
 			if (data) return data.league.gxe
+			else return NaN;
+		}
+		async ioUserTLS1likeTR(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) return data.league.gxe * 25000
 			else return NaN;
 		}
 		async ioUserTLPPS(args) {
@@ -1905,6 +1965,12 @@
 			if (data) return data["40l"].record.p.pri
 			else return NaN;
 		}
+		async ioUser40lSub(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data["40l"].record) return data["40l"].record.p.pri > -args.SUB * 1000
+			else return false;
+		}
 		async ioUser40lRecordMinute(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
@@ -1917,7 +1983,7 @@
 		async ioUser40lRecordIntMinute(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data) return Math.floor(-data["40l"].record.p.pri/60000)
+			if (data && data["40l"].record) return Math.floor(-data["40l"].record.p.pri/60000)
 			else return NaN;
 		}
 		ioPriTo40lRecordIntMinute(args) {
@@ -1926,7 +1992,7 @@
 		async ioUser40lRecordSecond(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data) return -data["40l"].record.p.pri/1000
+			if (data && data["40l"].record) return -data["40l"].record.p.pri/1000
 			else return NaN;
 		}
 		ioPriTo40lRecordSecond(args) {
@@ -1935,7 +2001,7 @@
 		async ioUser40lRecordSecondSubMinute(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data) return -data["40l"].record.p.pri/1000 - 60*Math.floor(-data["40l"].record.p.pri/60000)
+			if (data && data["40l"].record) return -data["40l"].record.p.pri/1000 - 60*Math.floor(-data["40l"].record.p.pri/60000)
 			else return NaN;
 		}
 		ioPriTo40lRecordSecondSubMinute(args) {
@@ -1944,19 +2010,19 @@
 		async ioUser40lRecordMillisecond(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data) return -data["40l"].record.p.pri
+			if (data && data["40l"].record) return -data["40l"].record.p.pri
 			else return NaN;
 		}
 		async ioUser40lRecordReplayID(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data) return data["40l"].record.replayid
+			if (data && data["40l"].record) return data["40l"].record.replayid
 			else return NaN;
 		}
 		async ioUser40lRecordID(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
-			if (data) return data["40l"].record._id
+			if (data && data["40l"].record) return data["40l"].record._id
 			else return NaN;
 		}
 		async usercount(){
