@@ -1793,7 +1793,6 @@
 				history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed = data.league.gamesplayed;
 				return true;
 			}
-			else return false;
 		}
 		async ioWhenUserTLGW(args) {
 			if (!UsernameLgeal(args.USER)) return false;
@@ -1804,7 +1803,6 @@
 				history.sum[args.USER.toString().toLowerCase()].data.league.gameswon = data.league.gameswon;
 				return true;
 			}
-			else return false;
 		}
 		async ioIfUserTLGP(args) {
 			if (!UsernameLgeal(args.USER)) return false;
