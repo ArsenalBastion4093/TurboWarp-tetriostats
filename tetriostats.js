@@ -12,7 +12,7 @@
 	async function userdata(USER) {
 		if (!saved_data[USER.toString().toLowerCase()]) {
 			saved_data[USER.toString().toLowerCase()] = await fetch("https://ch.tetr.io/api/users/" + USER.toString().toLowerCase()).then(r => r.json());
-			if (!history.user[USER.toString().toLowerCase()]) history.user[USER.toString().toLowerCase()] = saved_data[USER.toString().toLowerCase()]
+			if (!history.user[USER.toString().toLowerCase()]) history.user[USER.toString().toLowerCase()] = saved_data[USER.toString().toLowerCase()];
 			newlyInputedUser = USER.toString().toLowerCase()
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotInputed");
 		}
@@ -21,7 +21,7 @@
 	async function rounddata(USER) {
 		if (!saved_rounddata[USER.toString().toLowerCase()]) {
 			saved_rounddata[USER.toString().toLowerCase()] = await fetch("https://ch.tetr.io/api/users/" + USER.toString().toLowerCase() + "/records/league/recent?limit=100").then(r => r.json());
-			if (!history.sum[USER.toString().toLowerCase()]) history.sum[USER.toString().toLowerCase()] = saved_data[USER.toString().toLowerCase()]
+			if (!history.round[USER.toString().toLowerCase()]) history.round[USER.toString().toLowerCase()] = saved_rounddata[USER.toString().toLowerCase()];
 			newlyInputedUser = USER.toString().toLowerCase()
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotInputed");
 		}
@@ -37,6 +37,7 @@
 	async function usersummaries(USER) {
 		if (!summaries[USER.toString().toLowerCase()]){
 			summaries[USER.toString().toLowerCase()] = await fetch("https://ch.tetr.io/api/users/" + USER.toString().toLowerCase() + "/summaries").then(r => r.json())
+			if (!history.sum[USER.toString().toLowerCase()]) history.sum[USER.toString().toLowerCase()] = summaries[USER.toString().toLowerCase()];
 			newlyInputedUser = USER.toString().toLowerCase()
 			Scratch.vm.runtime.startHats("tetriostats_cacheGotInputed");
 		}
@@ -136,6 +137,7 @@
 	history = {
 		user: {},
 		sum: {},
+		round: {},
 	},
 	rankdata = null,
 	metadata = null,
@@ -577,6 +579,17 @@
 						opcode: 'ioUserBio',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s Bio"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioWhenUserBio',
+						blockType: Scratch.BlockType.HAT,
+						text: Scratch.translate("when user [USER] changed their bio"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
@@ -1784,20 +1797,20 @@
 			if (data) return data.league.gameswon
 			else return -1;
 		}
-		async ioWhenUserTLGP(args) {
+		async UserTLGP(args) {
 			if (!UsernameLgeal(args.USER)) return false;
 			var data = (await usersummaries(args.USER)).data
-			if (!data || !history.sum[args.USER.toString().toLowerCase()].data) return false 
+			if ((!data) || (!history.sum[args.USER.toString().toLowerCase()])) return false 
 			if (history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed == data.league.gamesplayed) return false
 			else {
 				history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed = data.league.gamesplayed;
 				return true;
 			}
 		}
-		async ioWhenUserTLGW(args) {
+		async UserTLGW(args) {
 			if (!UsernameLgeal(args.USER)) return false;
 			var data = (await usersummaries(args.USER)).data
-			if (!data || !history.sum[args.USER.toString().toLowerCase()].data) return false 
+			if ((!data) || (!history.sum[args.USER.toString().toLowerCase()])) return false 
 			if (history.sum[args.USER.toString().toLowerCase()].data.league.gameswon == data.league.gameswon) return false
 			else {
 				history.sum[args.USER.toString().toLowerCase()].data.league.gameswon = data.league.gameswon;
@@ -1807,7 +1820,7 @@
 		async ioIfUserTLGP(args) {
 			if (!UsernameLgeal(args.USER)) return false;
 			var data = (await usersummaries(args.USER)).data
-			if (!data || !history.sum[args.USER.toString().toLowerCase()].data) return false 
+			if ((!data) || (!history.sum[args.USER.toString().toLowerCase()])) return false 
 			if (history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed == data.league.gamesplayed) return false
 			else {
 				history.sum[args.USER.toString().toLowerCase()].data.league.gamesplayed = data.league.gamesplayed;
@@ -1817,7 +1830,7 @@
 		async ioIfUserTLGW(args) {
 			if (!UsernameLgeal(args.USER)) return false;
 			var data = (await usersummaries(args.USER)).data
-			if (!data || !history.sum[args.USER.toString().toLowerCase()].data) return false 
+			if ((!data) || (!history.sum[args.USER.toString().toLowerCase()])) return false 
 			if (history.sum[args.USER.toString().toLowerCase()].data.league.gameswon == data.league.gameswon) return false
 			else {
 				history.sum[args.USER.toString().toLowerCase()].data.league.gameswon = data.league.gameswon;
@@ -2115,6 +2128,16 @@
 			if (data) 
 				return data.ar||0
 			else return 0;
+		}
+		async ioWhenUserBio(args){
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await userdata(args.USER)).data
+			if ((!data) || (!history.sum[args.USER.toString().toLowerCase()])) return false 
+			if (history.user[args.USER.toString().toLowerCase()].data.bio == data.bio) return false
+			else {
+				history.user[args.USER.toString().toLowerCase()].data.bio = data.bio;
+				return true;
+			}
 		}
 	}
 	Scratch.extensions.register(new TETRIOSTATS());
