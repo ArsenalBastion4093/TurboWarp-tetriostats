@@ -4,8 +4,11 @@
 	if (!Scratch.extensions.unsandboxed) {
 		alert("This extension must be ran without sandbox!");
 	}
-	try Scratch.translate.setup(await fetch("https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json()))
-	catch(e) Scratch.translate.setup(await fetch("https://mirror.ghproxy.com/https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json()))
+	try {
+		Scratch.translate.setup(await fetch("https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json()))
+	} catch (e) {
+		Scratch.translate.setup(await fetch("https://mirror.ghproxy.com/https://raw.githubusercontent.com/ArsenalBastion4093/TurboWarp-tetriostats/main/translation.json").then(r => r.json()))
+	}
 	var vm = Scratch.vm;
 	var runtime = vm.runtime;
 	var newlyInputedUser = "";
