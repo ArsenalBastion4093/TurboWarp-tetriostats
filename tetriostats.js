@@ -129,6 +129,7 @@
 		{text:"Top 5",value:"t5"},
 		{text:"Top 3",value:"t3"},
 		{text:"Issued",value:"100"},
+		{text:"Null",value:"0"},
 	],
 	saved_data = {},
 	saved_achdata = {},
@@ -2158,7 +2159,18 @@
 			if (data) {
 				for (var i in data.achievements)
 					if (data.achievements[i].k == args.ACH)
-						return !data.achievements[i].stub
+						return data.achievements[i].rank != 0 && !data.achievements[i].stub
+				return false
+			}
+			else return false;
+		}
+		async ioAchRank(args){
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data) {
+				for (var i in data.achievements)
+					if (data.achievements[i].k == args.ACH)
+						return !data.achievements[i].rank
 				return false
 			}
 			else return false;
