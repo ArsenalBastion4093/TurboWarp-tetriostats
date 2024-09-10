@@ -143,6 +143,7 @@
 		sum: {},
 		round: {},
 	},
+	customranks = {},
 	rankdata = null,
 	metadata = null,
 	autoClearcacheEnabled = true,
@@ -1519,6 +1520,66 @@
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate("print this extension's data in console"),
 					},
+					{
+						opcode: 'defineCustomRank',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate("define custom rank [NAME]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							}
+						}
+					},
+					{
+						opcode: 'defineCustomRankWith',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate("define custom rank [NAME] with data [DATA]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+							DATA: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: '{"a":0.33,"b",0.67,"c":1}'
+							},
+						}
+					},
+					{
+						opcode: 'defineCustomSetData',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate("set rank [RANK]'s percentile position to [VALUE] in custom rank [NAME]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+							RANK: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'a'
+							},
+							VALUE: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0.33
+							},
+						}
+					},
+					{
+						opcode: 'defineCustomSetData',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[USER]'s rank in custom rank [NAME]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
 				]
 			};
 		}
@@ -2178,6 +2239,13 @@
 				return data.achievements.lastIndexOf(args.ACH) != -1
 			else return false;
 		}
+		async ioAchsShownOnProfile(args){
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await userdata(args.USER)).data
+			if (data) 
+				return data.achievements.join(",")
+			else return false;
+		}
 		async ioRankAchObtained(args){
 			if (!UsernameLgeal(args.USER)) return 0;
 			var data = (await userdata(args.USER)).data
@@ -2201,6 +2269,42 @@
 				history.user[args.USER.toString().toLowerCase()].data.bio = data.bio;
 				return true;
 			}
+		}
+		defineCustomRank(args){
+			customranks[args.NAME] = {};
+		}
+		defineCustomRankWith(args){
+			var data = JSON.parse(args.DATA);
+			entries = Object.entries(data);
+			entries.sort((a,b) => {
+				if (a[1]<b[1]) return -1
+				else if (a[1]>b[1]) return 1
+				else return 0
+			})
+			customranks[args.NAME] = data = Object.fromEntries(entries);
+		}
+		defineCustomRankSetData(args){
+			var data = customranks[args.NAME];
+			data[args.RANK] = args.VALUE
+			entries = Object.entries(data);
+			entries.sort((a,b) => {
+				if (a[1]<b[1]) return -1
+				else if (a[1]>b[1]) return 1
+				else return 0
+			})
+			data = Object.fromEntries(entries)
+			customranks[args.NAME] = json;
+		}
+		rankInCustomRank(args){
+			if (!UsernameLgeal(args.USER)) return "";
+			var udata = (await usersummaries(args.USER)).data;
+			if (!udata) return ""
+			var percentile = udata.league.percentile,
+			customrank = customranks[args.NAME];
+			for (i in customrank) {
+				if (percentile < customrank[i]) return i
+			}
+			return "";
 		}
 	}
 	Scratch.extensions.register(new TETRIOSTATS());
