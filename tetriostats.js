@@ -1542,12 +1542,12 @@
 							},
 							DATA: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: '{"a":0.33,"b",0.67,"c":1}'
+								defaultValue: '{"a":0.33,"b":0.67,"c":1}'
 							},
 						}
 					},
 					{
-						opcode: 'defineCustomSetData',
+						opcode: 'defineCustomRankSetData',
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate("set rank [RANK]'s percentile position to [VALUE] in custom rank [NAME]"),
 						arguments: {
@@ -1566,7 +1566,7 @@
 						}
 					},
 					{
-						opcode: 'defineCustomSetData',
+						opcode: 'rankInCustomRank',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("[USER]'s rank in custom rank [NAME]"),
 						arguments: {
@@ -2274,7 +2274,11 @@
 			customranks[args.NAME] = {};
 		}
 		defineCustomRankWith(args){
-			var data = JSON.parse(args.DATA);
+			try {
+				var data = JSON.parse(args.DATA);
+			} catch (e) {
+				return;
+			}
 			entries = Object.entries(data);
 			entries.sort((a,b) => {
 				if (a[1]<b[1]) return -1
@@ -2295,7 +2299,7 @@
 			data = Object.fromEntries(entries)
 			customranks[args.NAME] = json;
 		}
-		rankInCustomRank(args){
+		async rankInCustomRank(args){
 			if (!UsernameLgeal(args.USER)) return "";
 			var udata = (await usersummaries(args.USER)).data;
 			if (!udata) return ""
