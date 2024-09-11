@@ -2279,7 +2279,8 @@
 			} catch (e) {
 				return;
 			}
-			entries = Object.entries(data);
+			var 
+				entries = Object.entries(data);
 			entries.sort((a,b) => {
 				if (a[1]<b[1]) return -1
 				else if (a[1]>b[1]) return 1
@@ -2290,7 +2291,7 @@
 		defineCustomRankSetData(args){
 			var data = customranks[args.NAME];
 			data[args.RANK] = args.VALUE
-			entries = Object.entries(data);
+			var entries = Object.entries(data);
 			entries.sort((a,b) => {
 				if (a[1]<b[1]) return -1
 				else if (a[1]>b[1]) return 1
