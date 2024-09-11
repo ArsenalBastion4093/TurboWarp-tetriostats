@@ -2306,7 +2306,7 @@
 			if (!udata) return ""
 			var percentile = udata.league.percentile,
 			customrank = customranks[args.NAME];
-			for (i in customrank) {
+			for (var i in customrank) {
 				if (percentile < customrank[i]) return i
 			}
 			return "";
