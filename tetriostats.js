@@ -1566,6 +1566,36 @@
 						}
 					},
 					{
+						opcode: 'customRankData',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("rank [RANK]'s percentile position in custom rank [NAME]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+							RANK: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'a'
+							},
+						}
+					},
+					{
+						opcode: 'customRankDataExist',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("rank [RANK] exist in custom rank [NAME]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+							RANK: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'a'
+							},
+						}
+					},
+					{
 						opcode: 'rankInCustomRank',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("[USER]'s rank in custom rank [NAME]"),
@@ -1577,6 +1607,63 @@
 							USER: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'deleteCustomRank',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate("delete custom rank [NAME]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+						}
+					},
+					{
+						opcode: 'deleteCustomRanks',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate("delete all custom ranks"),
+					},
+					{
+						opcode: 'customRankExist',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("custom rank [NAME] exists?"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+						}
+					},
+					{
+						opcode: 's1rankInCustomRank',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[USER]'s s1 rank in custom rank [NAME]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'pInCustomRank',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[P]'s rank in custom rank [NAME]"),
+						arguments: {
+							NAME: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'tetr'
+							},
+							P: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0.3
 							},
 						}
 					},
@@ -2300,11 +2387,46 @@
 			data = Object.fromEntries(entries)
 			customranks[args.NAME] = json;
 		}
+		deleteCustomRank(args){
+			delete customranks[args.NAME];
+		}
+		deleteCustomRanks(args){
+			customranks = {};
+		}
+		customRankData(args){
+			return customranks[args.NAME][args.RANK]
+		}
+		customRankExist(args){
+			return !!customranks[args.NAME]
+		}
+		customRankDataExist(args){
+			return !!customranks[args.NAME] && !!customranks[args.NAME][args.RANK]
+		}
 		async rankInCustomRank(args){
 			if (!UsernameLgeal(args.USER)) return "";
-			var udata = (await usersummaries(args.USER)).data;
+			var udata = (await usersummaries(args.USER)).data.league;
 			if (!udata) return ""
-			var percentile = udata.league.percentile,
+			var percentile = udata.percentile,
+			customrank = customranks[args.NAME];
+			for (var i in customrank) {
+				if (percentile < customrank[i]) return i
+			}
+			return "";
+		}
+		async s1rankInCustomRank(args){
+			if (!UsernameLgeal(args.USER)) return "";
+			var udata = (await usersummaries(args.USER)).data.league;
+			if (!udata || !udata.past[1] || !udata.past[1].ranked) return ""
+			var percentile = (udata.past[1].placement-1) / 49072,
+			customrank = customranks[args.NAME];
+			for (var i in customrank) {
+				if (percentile < customrank[i]) return i
+			}
+			return "";
+		}
+		async pInCustomRank(args){
+			if (args.P < 0 || args.P > 1) return "";
+			var percentile = args.P,
 			customrank = customranks[args.NAME];
 			for (var i in customrank) {
 				if (percentile < customrank[i]) return i
