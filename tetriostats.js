@@ -872,6 +872,17 @@
 						}
 					},
 					{
+						opcode: 'ioRankPercentile',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("percentile position [P]'s rank"),
+						arguments: {
+							P: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0,
+							},
+						}
+					},
+					{
 						opcode: 'ioUserRank',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s rank"),
@@ -1651,7 +1662,7 @@
 							},
 							DATA: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: '{"x+":0.002,"x":0.01,"u":0.05,"ss":0.11,"s+":0.17,"s":0.23,"s-":0.30,"a+":0.38,"a":0.46,"a-":0.54,"b+":0.62,"b":0.70,"b-":0.78,"c+":0.84,"c":0.90,"c-":0.95,"d+":0.975,"d":1,}'
+								defaultValue: '{"x+":0.002,"x":0.01,"u":0.05,"ss":0.11,"s+":0.17,"s":0.23,"s-":0.30,"a+":0.38,"a":0.46,"a-":0.54,"b+":0.62,"b":0.70,"b-":0.78,"c+":0.84,"c":0.90,"c-":0.95,"d+":0.975,"d":1}'
 							},
 						}
 					},
@@ -1938,7 +1949,7 @@
 				"c":0.90,
 				"c-":0.95,
 				"d+":0.975,
-				"d":1,
+				"d":1
 			}[args.RANK]||NaN
 		}
 		async ioRankTop(args) {
@@ -2601,6 +2612,34 @@
 				if (percentile < customrank[i]) return i
 			}
 			return "";
+		}
+		async ioRankPercentile(args){
+			if (args.P < 0 || args.P > 1) return "d-";
+			var percentile = args.P,
+			ranks = {
+				"x+":0.002,
+				"x":0.01,
+				"u":0.05,
+				"ss":0.11,
+				"s+":0.17,
+				"s":0.23,
+				"s-":0.30,
+				"a+":0.38,
+				"a":0.46,
+				"a-":0.54,
+				"b+":0.62,
+				"b":0.70,
+				"b-":0.78,
+				"c+":0.84,
+				"c":0.90,
+				"c-":0.95,
+				"d+":0.975,
+				"d":1
+			};
+			for (var i in ranks) {
+				if (percentile < ranks[i]) return i
+			}
+			return "d-";
 		}
 	}
 	Scratch.extensions.register(new TETRIOSTATS());
