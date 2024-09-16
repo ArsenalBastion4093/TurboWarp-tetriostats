@@ -69,71 +69,6 @@
 	}
 	var currentseason = 2,
 	ranks = ["x+","x","u","ss","s+","s","s-","a+","a","a-","b+","b","b-","c+","c","c-","d+","d"],
-	achievements = [
-		{text:"Stacker",value:1},
-		{text:"Powerlevelling",value:2},
-		{text:"Garbage Offensive",value:3},
-		{text:"Elegance",value:4},
-		{text:"Sprinter",value:5},
-		{text:"Blitzer",value:6},
-		{text:"Secret Grade",value:7},
-		{text:"20TSD",value:8},
-		{text:"10PC",value:9},
-		{text:"Contender",value:10},
-		{text:"The Spike of all Time",value:12},
-		{text:"Speed Player",value:13},
-		{text:"Plonk",value:14},
-		{text:"Opener Main",value:15},
-		{text:"Tower Climber",value:16},
-		{text:"Whatever It Takes",value:17},
-		{text:"Zenith Explorer",value:18},
-		{text:"The Emperor",value:19},
-		{text:"The Devil",value:20},
-		{text:"Strengh",value:21},
-		{text:"The Tower",value:22},
-		{text:"Temperance",value:23},
-		{text:"Wheel of Fortune",value:24},
-		{text:"The Hermit",value:25},
-		{text:"The Magician",value:26},
-		{text:"The Lovers",value:27},
-		{text:"A Modern Classic",value:28},
-		{text:"Deadlock",value:29},
-		{text:"The Grandmaster",value:30},
-		{text:"Emperor's Decadence",value:31},
-		{text:"Divine Mastery",value:32},
-		{text:"The Escape Artist",value:33},
-		{text:"Swamp Water",value:34},
-		{text:"Champion of the Lobby",value:35},
-		{text:"All the Single Lines",value:36},
-		{text:"1-8 Stacking",value:37},
-		{text:"Mr. Boardwide",value:38},
-		{text:"Wabi-Sabi",value:39},
-		{text:"Trained Proessionals",value:40},
-		{text:"The Responsible One",value:41},
-		{text:"Zenith Speedrun",value:42},
-		{text:"Guardian Angel",value:43},
-		{text:"The Straving Artist",value:44},
-		{text:"Supercharged",value:45},
-		{text:"Vip List",value:46},
-		{text:"Against All Odds",value:47},
-		{text:"Detail Oriented",value:48},
-		{text:"The Con Artist",value:49},
-	],
-	achranks = [
-		{text:"Bronze",value:"1"},
-		{text:"Silver",value:"2"},
-		{text:"Gold",value:"3"},
-		{text:"Platinum",value:"4"},
-		{text:"Diamond",value:"5"},
-		{text:"Top 100",value:"t100"},
-		{text:"Top 50",value:"t50"},
-		{text:"Top 25",value:"t25"},
-		{text:"Top 10",value:"t10"},
-		{text:"Top 5",value:"t5"},
-		{text:"Top 3",value:"t3"},
-		{text:"Issued",value:"100"},
-		{text:"Null",value:"0"},
-	],
 	saved_data = {},
 	saved_achdata = {},
 	saved_rounddata = {},
@@ -187,9 +122,9 @@
 		}
 		getInfo() {
 			return {
-				color1:"#1d6429",
-				color2:"#1e4822",
-				color3:"#1c3e2a",
+				color1:"#ea50f0",
+				color2:"#e500f0",
+				color3:"#aa00b3",
 				id: 'tetriostats',
 				name: 'TETR.IO Stats',
 				menuIconURI: "https://txt.osk.sh/branding/tetrio-color.svg",
@@ -201,13 +136,88 @@
 					},
 					achs: {
 						acceptReporters: true,
-						items: achievements,
+						items: [
+							{text:"Stacker",value:1},
+							{text:"Powerlevelling",value:2},
+							{text:"Garbage Offensive",value:3},
+							{text:"Elegance",value:4},
+							{text:"Sprinter",value:5},
+							{text:"Blitzer",value:6},
+							{text:"Secret Grade",value:7},
+							{text:"20TSD",value:8},
+							{text:"10PC",value:9},
+							{text:"Contender",value:10},
+							{text:"The Spike of all Time",value:12},
+							{text:"Speed Player",value:13},
+							{text:"Plonk",value:14},
+							{text:"Opener Main",value:15},
+							{text:"Tower Climber",value:16},
+							{text:"Whatever It Takes",value:17},
+							{text:"Zenith Explorer",value:18},
+							{text:"The Emperor",value:19},
+							{text:"The Devil",value:20},
+							{text:"Strengh",value:21},
+							{text:"The Tower",value:22},
+							{text:"Temperance",value:23},
+							{text:"Wheel of Fortune",value:24},
+							{text:"The Hermit",value:25},
+							{text:"The Magician",value:26},
+							{text:"The Lovers",value:27},
+							{text:"A Modern Classic",value:28},
+							{text:"Deadlock",value:29},
+							{text:"The Grandmaster",value:30},
+							{text:"Emperor's Decadence",value:31},
+							{text:"Divine Mastery",value:32},
+							{text:"The Escape Artist",value:33},
+							{text:"Swamp Water",value:34},
+							{text:"Champion of the Lobby",value:35},
+							{text:"All the Single Lines",value:36},
+							{text:"1-8 Stacking",value:37},
+							{text:"Mr. Boardwide",value:38},
+							{text:"Wabi-Sabi",value:39},
+							{text:"Trained Proessionals",value:40},
+							{text:"The Responsible One",value:41},
+							{text:"Zenith Speedrun",value:42},
+							{text:"Guardian Angel",value:43},
+							{text:"The Straving Artist",value:44},
+							{text:"Supercharged",value:45},
+							{text:"Vip List",value:46},
+							{text:"Against All Odds",value:47},
+							{text:"Detail Oriented",value:48},
+							{text:"The Con Artist",value:49},
+						],
 					},
 					achranks: {
 						acceptReporters: true,
-						items: achranks,
+						items: [
+							{text:"Bronze",value:"1"},
+							{text:"Silver",value:"2"},
+							{text:"Gold",value:"3"},
+							{text:"Platinum",value:"4"},
+							{text:"Diamond",value:"5"},/*
+							{text:"Top 100",value:"t100"},
+							{text:"Top 50",value:"t50"},
+							{text:"Top 25",value:"t25"},
+							{text:"Top 10",value:"t10"},
+							{text:"Top 5",value:"t5"},
+							{text:"Top 3",value:"t3"},*/
+							{text:"Issued",value:"100"},
+							{text:"Null",value:"0"},
+						],
+					},
+					achtops: {
+						acceptReporters: true,
+						items: [
+							{text:"Top 100",value:"t100"},
+							{text:"Top 50",value:"t50"},
+							{text:"Top 25",value:"t25"},
+							{text:"Top 10",value:"t10"},
+							{text:"Top 5",value:"t5"},
+							{text:"Top 3",value:"t3"},
+						],
 					},
 					lowerhigher: {
+						acceptReporters: false,
 						items: [
 							{text:Scratch.translate("is"),value:"i"},
 							{text:Scratch.translate("is lower than"),value:"l"},
@@ -215,6 +225,7 @@
 						]
 					},
 					psselect: {
+						acceptReporters: false,
 						items: [
 							{text:Scratch.translate("TR"),value:"tr"},
 							{text:Scratch.translate("Glicko"),value:"glicko"},
@@ -234,6 +245,7 @@
 						]
 					},
 					dstype:{
+						acceptReporters: false,
 						items: [
 							{text:Scratch.translate("Opener Main"),value:"openermain"},
 							{text:Scratch.translate("Offensive Stacker"),value:"os"},
@@ -848,6 +860,18 @@
 						}
 					},
 					{
+						opcode: 'ioIsRank',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("[RANK] is a rank?"),
+						arguments: {
+							RANK: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'x+',
+								menu: "ranks"
+							},
+						}
+					},
+					{
 						opcode: 'ioUserRank',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s rank"),
@@ -1389,6 +1413,91 @@
 						}
 					},
 					{
+						opcode: 'ioAchRank',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[ACH]'s rank of [USER]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchRankHas',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("[USER] has [ARANK][ACH]?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+							ARANK: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achranks"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchValue',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[ACH]'s value of [USER]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchPosition',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[ACH]'s position/standing of [USER]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchPercentile',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("[ACH]'s percentile position of [USER]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "neko_ab4093",
+							},
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
 						opcode: 'ioAchShownOnProfile',
 						blockType: Scratch.BlockType.BOOLEAN,
 						text: Scratch.translate("[USER] shows [ACH] on their profile?"),
@@ -1542,7 +1651,7 @@
 							},
 							DATA: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: '{"a":0.33,"b":0.67,"c":1}'
+								defaultValue: '{"x+":0.002,"x":0.01,"u":0.05,"ss":0.11,"s+":0.17,"s":0.23,"s-":0.30,"a+":0.38,"a":0.46,"a-":0.54,"b+":0.62,"b":0.70,"b-":0.78,"c+":0.84,"c":0.90,"c-":0.95,"d+":0.975,"d":1,}'
 							},
 						}
 					},
@@ -1655,7 +1764,7 @@
 					{
 						opcode: 'pInCustomRank',
 						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate("[P]'s rank in custom rank [NAME]"),
+						text: Scratch.translate("percentile position [P]'s rank in custom rank [NAME]"),
 						arguments: {
 							NAME: {
 								type: Scratch.ArgumentType.STRING,
@@ -1833,24 +1942,31 @@
 			}[args.RANK]||NaN
 		}
 		async ioRankTop(args) {
+			if (ranks.indexOf(args.RANK) == -1) return NaN
 			return ((await getranks()).data.data)[args.RANK].pos
 		}
 		async ioRankPlayers(args) {
+			if (ranks.indexOf(args.RANK) == -1) return NaN
 			return ((await getranks()).data.data)[args.RANK].count
 		}
 		async ioRankTR(args) {
+			if (ranks.indexOf(args.RANK) == -1) return NaN
 			return ((await getranks()).data.data)[args.RANK].tr
 		}
 		async ioRankTargetTR(args) {
+			if (ranks.indexOf(args.RANK) == -1) return NaN
 			return ((await getranks()).data.data)[args.RANK].targettr
 		}
 		async ioRankPPS(args) {
+			if (ranks.indexOf(args.RANK) == -1) return NaN
 			return ((await getranks()).data.data)[args.RANK].pps
 		}
 		async ioRankAPM(args) {
+			if (ranks.indexOf(args.RANK) == -1) return NaN
 			return ((await getranks()).data.data)[args.RANK].apm
 		}
 		async ioRankVS(args) {
+			if (ranks.indexOf(args.RANK) == -1) return NaN
 			return ((await getranks()).data.data)[args.RANK].vs
 		}
 		async ioUserPlayedTL(args) {
@@ -2093,6 +2209,9 @@
 			if (args.LOWERHIGHER == "i") return args.RANKB == args.RANKA
 			return args.LOWERHIGHER == "l" ? ranks.indexOf(args.RANKA) > ranks.indexOf(args.RANKB) : ranks.indexOf(args.RANKA) < ranks.indexOf(args.RANKB)
 		}
+		ioIsRank(args) {
+			return ranks.indexOf(args.RANK) != -1
+		}
 		async ioUser40lRecord(args) {
 			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
@@ -2308,16 +2427,64 @@
 			}
 			else return false;
 		}
-		async ioAchRank(args){
-			if (!UsernameLgeal(args.USER)) return false;
+		async ioAchValue(args){
+			if (!UsernameLgeal(args.USER)) return NaN;
 			var data = (await usersummaries(args.USER)).data
 			if (data) {
 				for (var i in data.achievements)
 					if (data.achievements[i].k == args.ACH)
-						return !data.achievements[i].rank
-				return false
+						return data.achievements[i].v
+				return NaN
 			}
-			else return false;
+			else return NaN;
+		}
+		async ioAchPosition(args){
+			if (!(0 < args.ACH && args.ACH < 50 && args.ACH != 11 && args.ACH % 1 == 0)) return NaN;
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) {
+				for (var i in data.achievements)
+					if (data.achievements[i].k == args.ACH)
+						return data.achievements[i].pos
+				return NaN
+			}
+			else return NaN;
+		}
+		async ioAchPercentile(args){
+			if (!(0 < args.ACH && args.ACH < 50 && args.ACH != 11 && args.ACH % 1 == 0)) return NaN;
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data) {
+				for (var i in data.achievements)
+					if (data.achievements[i].k == args.ACH)
+						return data.achievements[i].pos / data.achievements[i].total
+				return NaN
+			}
+			else return NaN;
+		}
+		async ioAchRank(args){
+			if (!(0 < args.ACH && args.ACH < 50 && args.ACH != 11 && args.ACH % 1 == 0)) return 0;
+			if (!UsernameLgeal(args.USER)) return 0;
+			var data = (await usersummaries(args.USER)).data
+			if (data) {
+				for (var i in data.achievements)
+					if (data.achievements[i].k == args.ACH)
+						return data.achievements[i].rank
+				return 0
+			}
+			else return 0;
+		}
+		async ioAchRankHas(args){
+			if (!(0 < args.ACH && args.ACH < 50 && args.ACH != 11 && args.ACH % 1 == 0)) return 0;
+			if (!UsernameLgeal(args.USER)) return 0;
+			var data = (await usersummaries(args.USER)).data
+			if (data) {
+				for (var i in data.achievements)
+					if (data.achievements[i].k == args.ACH)
+						return (data.achievements[i].rank || 0) == args.ARANK
+				return 0
+			}
+			else return 0;
 		}
 		async ioAchShownOnProfile(args){
 			if (!UsernameLgeal(args.USER)) return false;
@@ -2408,6 +2575,7 @@
 			if (!udata) return ""
 			var percentile = udata.percentile,
 			customrank = customranks[args.NAME];
+			if (percentile < 0 || percentile > 1) return "";
 			for (var i in customrank) {
 				if (percentile < customrank[i]) return i
 			}
@@ -2419,6 +2587,7 @@
 			if (!udata || !udata.past[1] || !udata.past[1].ranked) return ""
 			var percentile = (udata.past[1].placement-1) / 49072,
 			customrank = customranks[args.NAME];
+			if (percentile < 0 || percentile > 1) return "";
 			for (var i in customrank) {
 				if (percentile < customrank[i]) return i
 			}
