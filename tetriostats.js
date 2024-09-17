@@ -253,6 +253,18 @@
 							{text:Scratch.translate("Defensive Stacker"),value:"ds"},
 							{text:Scratch.translate("Inf. Downstacker"),value:"infds"},
 						]
+					},
+					zenith:{
+						items:[
+							{value:"zenith",text:Scratch.translate("Quick Play")},
+							{value:"zenithex",text:Scratch.translate("Expert Quick Play")}
+						]
+					},
+					zrecord:{
+						items:[
+							{value:"week",text:Scratch.translate("Weekly Best")},
+							{value:"best",text:Scratch.translate("Career Best")}
+						]
 					}
 				},
 				blocks: [
@@ -1298,6 +1310,21 @@
 						text: Scratch.translate("Sprint/40 Lines"),
 					},
 					{
+						opcode: 'ioUser40lPlayed',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("user [USER] played sprint?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							SUB: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 50
+							},
+						}
+					},
+					{
 						opcode: 'ioUser40lRecord',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s direct 40l record"),
@@ -1375,6 +1402,111 @@
 							USER: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'ioUser40lPPS',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s PPS in 40l"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+						}
+					},
+					{
+						blockType: "label",
+						text: Scratch.translate("Quick Play"),
+					},
+					{
+						opcode: 'ioUserZenithPlayed',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("user [USER] has been playing [ZENITH]?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							ZENITH: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'zenith',
+								menu: "zenith"
+							},
+						}
+					},
+					{
+						opcode: 'ioUserZenithWeekPlayed',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("user [USER] has been playing [ZENITH] in this week?"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							ZENITH: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'zenith',
+								menu: "zenith"
+							},
+						}
+					},
+					{
+						opcode: 'ioUserZenithPPS',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s pps in [ZENITH] [ZRECORD]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							ZENITH: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'zenith',
+								menu: "zenith"
+							},
+							ZRECORD: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'week',
+								menu: "zrecord"
+							},
+						}
+					},
+					{
+						opcode: 'ioUserZenithAPM',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s apm in [ZENITH] [ZRECORD]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							ZENITH: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'zenith',
+								menu: "zenith"
+							},
+							ZRECORD: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'week',
+								menu: "zrecord"
+							},
+						}
+					},
+					{
+						opcode: 'ioUserZenithVS',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate("user [USER]'s VS score in [ZENITH]"),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'neko_ab4093'
+							},
+							ZENITH: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'week',
+								menu: "zrecord"
 							},
 						}
 					},
@@ -2640,6 +2772,108 @@
 				if (percentile < ranks[i]) return i
 			}
 			return "d-";
+		}
+		async ioUser40lPlayed(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data["40l"].record) return true
+			else return true;
+		}
+		async ioUser40lPPS(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data["40l"].record) return data["40l"].record.results.aggregatestats.pps
+			else return NaN;
+		}
+		async ioUserBlitzPlayed(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data.blitz.record) return true
+			else return true;
+		}
+		async ioUserBlitzPPS(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data.blitz.record) return data.blitz.record.results.aggregatestats.pps
+			else return NaN;
+		}
+		async ioUserZenithPlayed(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data[args.ZENITH] && (data[args.ZENITH].record || data[args.ZENITH].best)) return true
+			else return false;
+		}
+		async ioUserZenithWeekPlayed(args) {
+			if (!UsernameLgeal(args.USER)) return false;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data[args.ZENITH] && data[args.ZENITH].record) return true
+			else return false;
+		}
+		async ioUserZenithPPS(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (args.ZRECORD == "best")
+				if (data && data[args.ZENITH].best.record) return data[args.ZENITH].best.record.results.aggregatestats.pps
+			else
+				if (data && data[args.ZENITH].record) return data[args.ZENITH].record.results.aggregatestats.pps
+			else return NaN;
+		}
+		async ioUserZenithAPM(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (args.ZRECORD == "best")
+				if (data && data[args.ZENITH] && data[args.ZENITH].best.record) return data[args.ZENITH].best.record.results.aggregatestats.apm
+			else
+				if (data && data[args.ZENITH] && data[args.ZENITH].record) return data[args.ZENITH].record.results.aggregatestats.apm
+			else return NaN;
+		}
+		async ioUserZenithVS(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (args.ZRECORD == "best")
+				if (data && data[args.ZENITH] && data[args.ZENITH].best.record) return data[args.ZENITH].best.record.results.aggregatestats.vsscore
+			else
+				if (data && data[args.ZENITH] && data[args.ZENITH].record) return data[args.ZENITH].record.results.aggregatestats.vsscore
+			else return NaN;
+		}
+		async ioUserZenithClearLine(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (args.ZRECORD == "best")
+				if (data && data[args.ZENITH] && data[args.ZENITH].best.record) return data[args.ZENITH].best.record.results.stats.clears[args.CLEARTYPE]
+			else
+				if (data && data[args.ZENITH] && data[args.ZENITH].record) return data[args.ZENITH].record.results.stats.clears[args.CLEARTYPE]
+			else return NaN;
+		}
+		async ioUser40lClearLine(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data["40l"].record) return data["40l"].record.results.stats.clears[args.CLEARTYPE]
+			else return NaN;
+		}
+		async ioUserBlitzClearLine(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data.blitz.record) return data.blitz.record.results.stats.clears[args.CLEARTYPE]
+			else return NaN;
+		}
+		async ioUser40lRank(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data["40l"].record) return data["40l"].rank
+			else return NaN;
+		}
+		async ioUserBlitzRank(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data.blitz.record) return data.blitz.rank
+			else return NaN;
+		}
+		async ioUser40lRank(args) {
+			if (!UsernameLgeal(args.USER)) return NaN;
+			var data = (await usersummaries(args.USER)).data
+			if (data && data["40l"].record) return data["40l"].rank
+			else return NaN;
 		}
 	}
 	Scratch.extensions.register(new TETRIOSTATS());
