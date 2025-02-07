@@ -79,6 +79,70 @@
 		round: {},
 	},
 	customranks = {},
+	achs = [
+		{name:"Stacker",id:1},
+		{name:"Powerlevelling",id:2},
+		{name:"Garbage Offensive",id:3},
+		{name:"Elegance",id:4},
+		{name:"Sprinter",id:5},
+		{name:"Blitzer",id:6},
+		{name:"Secret Grade",id:7,issued:true,nolb:true},
+		{name:"20TSD",id:8,competitive:true},
+		{name:"10PC",id:9,competitive:true},
+		{name:"Contender",id:10},
+		{name:"The Spike of all Time",id:12},
+		{name:"Speed Player",id:13},
+		{name:"Plonk",id:14},
+		{name:"Opener Main",id:15},
+		{name:"Tower Climber",id:16},
+		{name:"Whatever It Takes",id:17},
+		{name:"Zenith Explorer",id:18,competitive:true},
+		{name:"The Emperor",id:19,competitive:true,hidden:true},
+		{name:"The Devil",id:20,competitive:true,hidden:true},
+		{name:"Strengh",id:21,competitive:true,hidden:true},
+		{name:"The Tower",id:22,competitive:true,hidden:true},
+		{name:"Temperance",id:23,competitive:true,hidden:true},
+		{name:"Wheel of Fortune",id:24,competitive:true,hidden:true},
+		{name:"The Hermit",id:25,competitive:true,hidden:true},
+		{name:"The Magician",id:26,competitive:true,hidden:true},
+		{name:"The Lovers",id:27,unranked:true},
+		{name:"A Modern Classic",id:28,competitive:true,hidden:true},
+		{name:"Deadlock",id:29,competitive:true,hidden:true},
+		{name:"The Grandmaster",id:30,competitive:true,hidden:true},
+		{name:"Emperor's Decadence",id:31,competitive:true,hidden:true},
+		{name:"Divine Mastery",id:32,competitive:true,hidden:true},
+		{name:"The Escape Artist",id:33,competitive:true,hidden:true},
+		{name:"Swamp Water",id:34,competitive:true,hidden:true},
+		{name:"Champion of the Lobby",id:35},
+		{name:"All the Single Lines",id:36,competitive:true},
+		{name:"1-8 Stacking",id:37,competitive:true},
+		{name:"Mr. Boardwide",id:38,competitive:true},
+		{name:"Wabi-Sabi",id:39,competitive:true},
+		{name:"Trained Proessionals",id:40,hidden:true,unranked:true},
+		{name:"The Responsible One",id:41,hidden:true},
+		{name:"Zenith Speedrun",id:42,competitive:true,hidden:true},
+		{name:"Guardian Angel",id:43,unranked:true},
+		{name:"The Straving Artist",id:44,competitive:true,hidden:true},
+		{name:"Supercharged",id:45,competitive:true},
+		{name:"Vip List",id:46,hidden:true},
+		{name:"Against All Odds",id:47,unranked:true},
+		{name:"Detail Oriented",id:48,competitive:true},
+		{name:"The Con Artist",id:49,competitive:true,hidden:true},
+		{name:"Block Rationing",id:50,competitive:true,hidden:true},
+		{name:"Talentless",id:51,competitive:true,hidden:true},
+		{name:"Empty Box",id:52,competitive:true},
+		{name:"Swamp Water Lite",id:53,competitive:true,hidden:true},
+		{name:"Rolling The Snowman",id:54,competitive:true,hidden:true,event:true},
+		{name:"Last Stand",id:55937,competitive:true,hidden:true},
+		{name:"Freefall",id:55938,competitive:true,hidden:true},
+		{name:"Asceticism",id:55939,competitive:true,hidden:true},
+		{name:"Loaded Dice",id:55940,competitive:true,hidden:true},
+		{name:"The Exile",id:55941,competitive:true,hidden:true},
+		{name:"The Warlock",id:55942,competitive:true,hidden:true},
+		{name:"The Tyrant",id:55943,competitive:true,hidden:true},
+		{name:"Damnation",id:55944,competitive:true,hidden:true},
+		{name:"The Harbinger",id:55945,issued:true,hidden:true},
+	],
 	rankdata = null,
 	metadata = null,
 	autoClearcacheEnabled = true,
@@ -122,13 +186,13 @@
 		}
 		getInfo() {
 			return {
-				color1:"#ea50f0",
-				color2:"#e500f0",
-				color3:"#aa00b3",
+				// color1:"#ea50f0",
+				// color2:"#e500f0",
+				// color3:"#aa00b3",
 				id: 'tetriostats',
 				name: 'TETR.IO Stats',
 				menuIconURI: "https://txt.osk.sh/branding/tetrio-color.svg",
-				blockIconURI: "https://txt.osk.sh/branding/tetrio-mono.svg",
+				blockIconURI: "https://txt.osk.sh/branding/tetrio-color.svg",
 				menus: {
 					ranks: {
 						acceptReporters: true,
@@ -185,6 +249,20 @@
 							{text:"Against All Odds",value:47},
 							{text:"Detail Oriented",value:48},
 							{text:"The Con Artist",value:49},
+							{text:"Block Rationing",value:50},
+							{text:"Talentless",value:51},
+							{text:"Empty Box",value:52},
+							{text:"Swamp Water Lite",value:53},
+							{text:"Rolling The Snowman",value:54},
+							{text:"Last Stand",value:55937},
+							{text:"Freefall",value:55938},
+							{text:"Asceticism",value:55939},
+							{text:"Loaded Dice",value:55940},
+							{text:"The Exile",value:55941},
+							{text:"The Warlock",value:55942},
+							{text:"The Tyrant",value:55943},
+							{text:"Damnation",value:55944},
+							{text:"The Harbinger",value:55945},
 						],
 					},
 					achranks: {
@@ -270,160 +348,6 @@
 				blocks: [
 					{
 						blockType: "label",
-						text: Scratch.translate("Direct Data Query"),
-					},
-					{
-						opcode: 'requestUser',
-						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate('request basic data for [USER]'),
-						arguments: {
-							USER: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
-							},
-						}
-					},
-					{
-						opcode: 'requestUserSummaries',
-						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate('request summaries for [USER]'),
-						arguments: {
-							USER: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
-							},
-						}
-					},
-					{
-						blockType: "label",
-						text: Scratch.translate("Cache Management"),
-					},
-					{
-						opcode: 'disableCache',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('disable cache removing'),
-					},
-					{
-						opcode: 'enableCache',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('enable cache removing'),
-					},
-					{
-						opcode: 'enabledCache',
-						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate('cache removing enabled?'),
-					},
-					{
-						opcode: 'userCacheExist',
-						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate('cache for user [USER] exists?'),
-						arguments: {
-							USER: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
-							},
-						}
-					},
-					{
-						opcode: 'userSummaryCacheExist',
-						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate('summary cache for user [USER] exists?'),
-						arguments: {
-							USER: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
-							},
-						}
-					},
-					{
-						opcode: 'rankdataCacheExist',
-						blockType: Scratch.BlockType.BOOLEAN,
-						text: Scratch.translate('cache for ranks exists?'),
-					},
-					{
-						opcode: 'cacheGotAutoRemoved',
-						blockType: Scratch.BlockType.EVENT,
-						text: Scratch.translate('when a cache got automatically removed'),
-						isEdgeActivated: false,
-					},
-					{
-						opcode: 'cacheGotNonAutoRemoved',
-						blockType: Scratch.BlockType.EVENT,
-						text: Scratch.translate('when a cache got non-automatically removed'),
-						isEdgeActivated: false,
-					},
-					{
-						opcode: 'cacheGotRemoved',
-						blockType: Scratch.BlockType.EVENT,
-						text: Scratch.translate('when a cache got removed'),
-						isEdgeActivated: false,
-					},
-					{
-						opcode: 'cacheGotInputed',
-						blockType: Scratch.BlockType.EVENT,
-						text: Scratch.translate('when a cache got inputed'),
-						isEdgeActivated: false,
-					},
-					{
-						opcode: 'setCache',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('set caching speed as once / [N] seconds'),
-						arguments: {
-							N: {
-								type: Scratch.ArgumentType.NUMBER,
-								defaultValue: 0.1
-							},
-						}
-					},
-					{
-						opcode: 'currentCache',
-						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate('seconds of time between cache clearing'),
-					},
-					{
-						opcode: 'refreshUser',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('remove cache: basic data for [USER]'),
-						arguments: {
-							USER: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
-							},
-						}
-					},
-					{
-						opcode: 'refreshUserSummaries',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('remove cache: summaries for [USER]'),
-						arguments: {
-							USER: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
-							},
-						}
-					},
-					{
-						opcode: 'refreshUserAll',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('remove cache: all basic data for users'),
-					},
-					{
-						opcode: 'refreshUserSummariesAll',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('remove cache: all summaries for users'),
-					},
-					{
-						opcode: 'refreshAll',
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate('remove all the cache'),
-					},
-					{
-						opcode: 'newlyInputedUser',
-						blockType: Scratch.BlockType.REPORTER,
-						text: Scratch.translate('newly inputed user'),
-					},
-					{
-						blockType: "label",
 						text: Scratch.translate("General Data"),
 					},
 					{
@@ -502,7 +426,7 @@
 						arguments: {
 							NAME: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -513,7 +437,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -524,7 +448,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -535,7 +459,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -546,7 +470,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -557,7 +481,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -568,7 +492,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -579,7 +503,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -590,7 +514,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -601,7 +525,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -612,7 +536,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -623,7 +547,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -634,7 +558,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -645,7 +569,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -656,7 +580,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -678,7 +602,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -689,7 +613,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -901,7 +825,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -912,7 +836,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -923,7 +847,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -934,7 +858,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -945,7 +869,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -956,7 +880,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -967,7 +891,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -978,7 +902,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -989,7 +913,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1000,7 +924,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1011,7 +935,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1022,7 +946,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1033,7 +957,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1044,7 +968,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1055,7 +979,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1066,7 +990,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1077,7 +1001,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1088,7 +1012,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1099,7 +1023,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1110,10 +1034,10 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
-					},
+					},/*
 					{
 						opcode: 'UserTLGP',
 						blockType: Scratch.BlockType.HAT,
@@ -1121,7 +1045,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1132,7 +1056,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1143,7 +1067,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1154,18 +1078,18 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
-					{
+					*/{
 						opcode: 'ioUserTLPastSeason',
 						blockType: Scratch.BlockType.REPORTER,
 						text: Scratch.translate("user [USER]'s [SELECT] in TL season [SEASON]"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							SELECT: {
 								type: Scratch.ArgumentType.STRING,
@@ -1185,7 +1109,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							SEASON: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1200,7 +1124,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							SEASON: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1219,7 +1143,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1230,7 +1154,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1241,7 +1165,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							DSTYPE: {
 								type: Scratch.ArgumentType.STRING,
@@ -1257,7 +1181,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1268,7 +1192,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1279,7 +1203,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1290,7 +1214,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1301,7 +1225,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1316,7 +1240,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							SUB: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1331,7 +1255,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1342,7 +1266,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							SUB: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1357,7 +1281,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1368,7 +1292,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1379,7 +1303,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1390,7 +1314,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1401,7 +1325,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1412,7 +1336,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1427,7 +1351,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							ZENITH: {
 								type: Scratch.ArgumentType.STRING,
@@ -1443,7 +1367,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							ZENITH: {
 								type: Scratch.ArgumentType.STRING,
@@ -1459,7 +1383,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							ZENITH: {
 								type: Scratch.ArgumentType.STRING,
@@ -1480,7 +1404,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							ZENITH: {
 								type: Scratch.ArgumentType.STRING,
@@ -1501,7 +1425,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 							ZENITH: {
 								type: Scratch.ArgumentType.STRING,
@@ -1540,13 +1464,85 @@
 						}
 					},
 					{
+						opcode: 'ioAchIssued',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("achievement [ACH] is issued?"),
+						arguments: {
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchLeaderboard',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("achievement [ACH] has a leaderboard?"),
+						arguments: {
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchRanked',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("achievement [ACH] contributes your AR?"),
+						arguments: {
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchHidden',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("achievement [ACH] is only visible to the worthy?"),
+						arguments: {
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchCompetitive',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("achievement [ACH] grants extra AR to those who place in its Top 100 leaderboard?"),
+						arguments: {
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
+						opcode: 'ioAchEvent',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate("achievement [ACH] is a part of a event?"),
+						arguments: {
+							ACH: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1,
+								menu: "achs"
+							},
+						}
+					},
+					{
 						opcode: 'ioAchHas',
 						blockType: Scratch.BlockType.BOOLEAN,
 						text: Scratch.translate("[USER] has [ACH]?"),
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 							ACH: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1562,7 +1558,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 							ACH: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1578,7 +1574,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 							ACH: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1599,7 +1595,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 							ACH: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1615,7 +1611,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 							ACH: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1631,7 +1627,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 							ACH: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1647,7 +1643,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 							ACH: {
 								type: Scratch.ArgumentType.NUMBER,
@@ -1663,7 +1659,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 							ARANK: {
 								type: Scratch.ArgumentType.STRING,
@@ -1679,7 +1675,7 @@
 						arguments: {
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "neko_ab4093",
+								defaultValue: "ab4093",
 							},
 						}
 					},
@@ -1858,7 +1854,7 @@
 							},
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1900,7 +1896,7 @@
 							},
 							USER: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: 'neko_ab4093'
+								defaultValue: 'ab4093'
 							},
 						}
 					},
@@ -1918,6 +1914,160 @@
 								defaultValue: 0.3
 							},
 						}
+					},
+										{
+						blockType: "label",
+						text: Scratch.translate("Direct Data Query"),
+					},
+					{
+						opcode: 'requestUser',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('request basic data for [USER]'),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'requestUserSummaries',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('request summaries for [USER]'),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'ab4093'
+							},
+						}
+					},
+					{
+						blockType: "label",
+						text: Scratch.translate("Cache Management"),
+					},
+					{
+						opcode: 'disableCache',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('disable cache removing'),
+					},
+					{
+						opcode: 'enableCache',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('enable cache removing'),
+					},
+					{
+						opcode: 'enabledCache',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate('cache removing enabled?'),
+					},
+					{
+						opcode: 'userCacheExist',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate('cache for user [USER] exists?'),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'userSummaryCacheExist',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate('summary cache for user [USER] exists?'),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'rankdataCacheExist',
+						blockType: Scratch.BlockType.BOOLEAN,
+						text: Scratch.translate('cache for ranks exists?'),
+					},
+					{
+						opcode: 'cacheGotAutoRemoved',
+						blockType: Scratch.BlockType.EVENT,
+						text: Scratch.translate('when a cache got automatically removed'),
+						isEdgeActivated: false,
+					},
+					{
+						opcode: 'cacheGotNonAutoRemoved',
+						blockType: Scratch.BlockType.EVENT,
+						text: Scratch.translate('when a cache got non-automatically removed'),
+						isEdgeActivated: false,
+					},
+					{
+						opcode: 'cacheGotRemoved',
+						blockType: Scratch.BlockType.EVENT,
+						text: Scratch.translate('when a cache got removed'),
+						isEdgeActivated: false,
+					},
+					{
+						opcode: 'cacheGotInputed',
+						blockType: Scratch.BlockType.EVENT,
+						text: Scratch.translate('when a cache got inputed'),
+						isEdgeActivated: false,
+					},
+					{
+						opcode: 'setCache',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('set caching speed as once / [N] seconds'),
+						arguments: {
+							N: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0.1
+							},
+						}
+					},
+					{
+						opcode: 'currentCache',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('seconds of time between cache clearing'),
+					},
+					{
+						opcode: 'refreshUser',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('remove cache: basic data for [USER]'),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'refreshUserSummaries',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('remove cache: summaries for [USER]'),
+						arguments: {
+							USER: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: 'ab4093'
+							},
+						}
+					},
+					{
+						opcode: 'refreshUserAll',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('remove cache: all basic data for users'),
+					},
+					{
+						opcode: 'refreshUserSummariesAll',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('remove cache: all summaries for users'),
+					},
+					{
+						opcode: 'refreshAll',
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate('remove all the cache'),
+					},
+					{
+						opcode: 'newlyInputedUser',
+						blockType: Scratch.BlockType.REPORTER,
+						text: Scratch.translate('newly inputed user'),
 					},
 				]
 			};
@@ -2474,10 +2624,60 @@
 			return data.inputs / data.piecesplaced;
 		}
 		ioAchName(args){
-			return {"1":"Stacker","2":"Powerlevelling","3":"Grbage Offensive","4":"Elegance","5":"Sprinter","6":"Blitzer","7":"Secret Grade","8":"20TSD","9":"10PC","10":"Contender","12":"The Spike of all Time","13":"Speed Player","14":"Plonk","15":"Opener Main","16":"Tower Climber","17":"Whatever It Takes","18":"Zenith Explorer","19":"The Emperor","20":"The Devil","21":"Strengh","22":"The Tower","23":"Temperance","24":"Wheel of Fortune","25":"The Hermit","26":"The Magician","27":"The Lovers","28":"A Modern Classic","29":"Deadlock","30":"The Grandmaster","31":"Emperor's Decadence","32":"Divine Mastery","33":"The Escape Artist","34":"Swamp Water","35":"Champion of the Lobby","36":"All the Single Lines","37":"1-8 Stacking","38":"Mr. Boardwide","39":"Wabi-Sabi","40":"Trained Proessionals","41":"The Responsible One","42":"Zenith Speedrun","43":"Guardian Angel","44":"The Straving Artist","45":"Supercharged","46":"Vip List","47":"Against All Odds","48":"Detail Oriented","49":"The Con Artist"}[args.ACH]||""
+			for (var i in achs) {
+				if (args.ACH == achs[i].id) {
+					return achs[i].name
+				}
+			}
 		}
 		ioAch(args){
-			return 0 < args.ACH && args.ACH < 50 && args.ACH != 11 && args.ACH % 1 == 0 ? args.ACH : -1
+			for (var i in achs) {
+				if (args.ACH == achs[i].id) {
+					return achs[i].id
+				}
+			}
+		}
+		ioAchIssued(args){
+			for (var i in achs) {
+				if (args.ACH == achs[i].id) {
+					return !!achs[i].issued
+				}
+			}
+		}
+		ioAchLeaderboard(args){
+			for (var i in achs) {
+				if (args.ACH == achs[i].id) {
+					return !achs[i].nold
+				}
+			}
+		}
+		ioAchRanked(args){
+			for (var i in achs) {
+				if (args.ACH == achs[i].id) {
+					return !achs[i].unranked
+				}
+			}
+		}
+		ioAchHidden(args){
+			for (var i in achs) {
+				if (args.ACH == achs[i].id) {
+					return !!achs[i].hidden
+				}
+			}
+		}
+		ioAchCompetitive(args){
+			for (var i in achs) {
+				if (args.ACH == achs[i].id) {
+					return !!achs[i].competitive
+				}
+			}
+		}
+	 	ioAchEvent(args){
+			for (var i in achs) {
+				if (args.ACH == achs[i].id) {
+					return !!achs[i].event
+				}
+			}
 		}
 		enableCache(){
 			autoClearcacheEnabled = true;
@@ -2506,7 +2706,7 @@
 			return !!rankdata
 		}
 		newlyInputedUser(){ return newlyInputedUser; }
-		ioBlockAuthor(){ return "neko_ab4093"; }
+		ioBlockAuthor(){ return "ab4093"; }
 		ioTetraStatsAuthor(){ return "dan63"; }
 		ioExTetrioStatsAuthor(){ return "tenchi"; }
 		ioTetrioPlusAuthor(){ return "uniqmg"; }
